@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="Carteira de Identidade Nacional de Santa Catarina">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#1f8a4c"/>
+      <stop offset="1" stop-color="#14532d"/>
+    </linearGradient>
+  </defs>
+  <rect x="2" y="2" width="60" height="60" rx="14" fill="url(#bg)"/>
+  <!-- cartão -->
+  <rect x="11" y="17" width="42" height="30" rx="4" fill="#ffffff"/>
+  <!-- foto / pessoa -->
+  <circle cx="23" cy="28.5" r="5" fill="#1f8a4c"/>
+  <path d="M14.5 41c0-4.6 3.8-7.5 8.5-7.5s8.5 2.9 8.5 7.5z" fill="#1f8a4c"/>
+  <!-- linhas de dados -->
+  <rect x="35" y="24" width="13" height="3.2" rx="1.6" fill="#1f8a4c"/>
+  <rect x="35" y="31" width="13" height="3.2" rx="1.6" fill="#c3d4cb"/>
+  <rect x="35" y="38" width="9" height="3.2" rx="1.6" fill="#c3d4cb"/>
+</svg>
