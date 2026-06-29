@@ -348,7 +348,7 @@ export default function AccessibilityBar() {
         <div className="a11y-group" role="group" aria-label={t('a11y.fontSize')}>
           <span className="a11y-title">
             <span className="a11y-title-icon">{I.font}</span>
-            {t('a11y.fontSize')} {settings.fontPx}px
+            {t('a11y.fontSize')} {Math.round(settings.fontPx / 16 * 100)}%
           </span>
           <div className="a11y-controls">
             <button
