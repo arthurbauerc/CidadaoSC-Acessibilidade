@@ -3,23 +3,23 @@ import PageHeader from '../components/PageHeader'
 import Footer from '../components/Footer'
 import InfoBanner from '../components/InfoBanner'
 import { SearchIcon, CheckCircleIcon } from '../components/Icons'
+import { useLanguage } from '../i18n'
 
-function ConfirmModal({ loading, onVoltar, onConfirmar }) {
+function ConfirmModal({ loading, onVoltar, onConfirmar, t }) {
   return (
     <div className="modal-overlay" role="dialog" aria-modal="true">
       <div className="modal modal-confirm">
-        <h2>Cancelamento</h2>
+        <h2>{t('cancelarEm.modalTitle')}</h2>
         <div className="modal-confirm-body">
           <div className="alert-warn">
-            Você está prestes a cancelar o processo de emissão online da sua Carteira de
-            Identidade Nacional. Deseja seguir com o cancelamento?
+            {t('cancelarEm.modalWarn')}
           </div>
           <div className="modal-confirm-actions">
             <button type="button" className="btn-back" onClick={onVoltar} disabled={loading}>
-              {loading ? <span className="spinner-inline">Carregando...</span> : 'Voltar'}
+              {loading ? <span className="spinner-inline">{t('loading')}</span> : t('back')}
             </button>
             <button type="button" className="btn-next" onClick={onConfirmar} disabled={loading}>
-              {loading ? <span className="spinner-inline">Carregando...</span> : 'Confirmar'}
+              {loading ? <span className="spinner-inline">{t('loading')}</span> : t('confirm')}
             </button>
           </div>
         </div>
@@ -29,6 +29,7 @@ function ConfirmModal({ loading, onVoltar, onConfirmar }) {
 }
 
 export default function CancelarEmissao({ onBack, onNext }) {
+  const { t } = useLanguage()
   const [code, setCode] = useState('')
   const [validado, setValidado] = useState(false)
   const [seconds, setSeconds] = useState(0)
@@ -43,8 +44,8 @@ export default function CancelarEmissao({ onBack, onNext }) {
 
   useEffect(() => {
     if (!loading) return
-    const t = setTimeout(() => onNext?.(), 1400)
-    return () => clearTimeout(t)
+    const timer = setTimeout(() => onNext?.(), 1400)
+    return () => clearTimeout(timer)
   }, [loading, onNext])
 
   const canResend = seconds <= 0
@@ -53,8 +54,8 @@ export default function CancelarEmissao({ onBack, onNext }) {
     <section className="page page-flow">
       <PageHeader
         icon={<SearchIcon size={22} />}
-        breadcrumb="Emissão Online"
-        title="Cancelar emissão"
+        breadcrumb={t('cancelarEm.breadcrumb')}
+        title={t('cancelarEm.title')}
       />
 
       {validado ? (
@@ -62,8 +63,8 @@ export default function CancelarEmissao({ onBack, onNext }) {
           <div className="validado-box">
             <CheckCircleIcon size={56} />
             <div>
-              <strong>Código de segurança validado!</strong>
-              <span>Você já pode prosseguir.</span>
+              <strong>{t('cancelarEm.validated')}</strong>
+              <span>{t('cancelarEm.canProceed')}</span>
             </div>
           </div>
           <Footer onBack={() => setValidado(false)} onNext={() => setConfirmOpen(true)} />
@@ -72,24 +73,24 @@ export default function CancelarEmissao({ onBack, onNext }) {
               loading={loading}
               onVoltar={() => setConfirmOpen(false)}
               onConfirmar={() => setLoading(true)}
+              t={t}
             />
           )}
         </div>
       ) : (
         <div className="flow-body">
           <InfoBanner tone="blue">
-            Enviamos um código de segurança para seu e-mail. Verifique sua caixa de entrada
-            e também a pasta de spam.
+            {t('cancelarEm.codeInfo')}
           </InfoBanner>
 
           <label className="field">
             <span className="field-label">
-              Código de segurança<span className="required">*</span>
+              {t('cancelarEm.codeLabel')}<span className="required">*</span>
             </span>
             <input
               type="text"
               className="field-input"
-              placeholder="Digite o código enviado para seu e-mail..."
+              placeholder={t('cancelarEm.codePlaceholder')}
               value={code}
               onChange={(e) => setCode(e.target.value)}
             />
@@ -101,17 +102,17 @@ export default function CancelarEmissao({ onBack, onNext }) {
             onClick={() => setValidado(true)}
             disabled={code.trim().length === 0}
           >
-            Verificar
+            {t('verify')}
           </button>
 
-          <p className="resend-label">Não recebeu seu código? Solicite o reenvio abaixo:</p>
+          <p className="resend-label">{t('cancelarEm.resendHint')}</p>
           <button
             type="button"
             className="btn-outline-block"
             disabled={!canResend}
             onClick={() => setSeconds(60)}
           >
-            {canResend ? 'Reenviar por e-mail' : `Reenviar por e-mail (${seconds}s)`}
+            {canResend ? t('cancelarEm.resend') : `${t('cancelarEm.resend')} (${seconds}s)`}
           </button>
 
           <Footer onBack={onBack} nextDisabled />

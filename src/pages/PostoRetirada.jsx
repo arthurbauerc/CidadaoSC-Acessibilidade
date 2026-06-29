@@ -4,6 +4,7 @@ import Stepper from '../components/Stepper'
 import Footer from '../components/Footer'
 import InfoBanner from '../components/InfoBanner'
 import { CalendarIcon, IdCardIcon, PinIcon } from '../components/Icons'
+import { useLanguage } from '../i18n'
 
 const HORARIO_CHIP = 'Seg. a Sex.: 08:00 - 11:30 / 13:00 - 16:30'
 
@@ -46,6 +47,7 @@ const CIDADES = [
 ]
 
 export default function PostoRetirada({ onBack, onNext }) {
+  const { t } = useLanguage()
   const [modo, setModo] = useState('cidade')
   const [busca, setBusca] = useState('')
   const [cep, setCep] = useState('')
@@ -69,18 +71,17 @@ export default function PostoRetirada({ onBack, onNext }) {
     <section className="page page-flow">
       <PageHeader
         icon={<CalendarIcon size={24} />}
-        title="Posto de retirada"
+        title={t('posto.title')}
         stepper={<Stepper total={5} current={1} />}
       />
 
       <div className="flow-body">
         <InfoBanner>
-          Informe seu CEP ou busque por cidade para localizar o posto de retirada mais
-          próximo de você.
+          {t('posto.info')}
         </InfoBanner>
 
         <div className="field-group">
-          <span className="field-label">Buscar por</span>
+          <span className="field-label">{t('posto.searchBy')}</span>
           <div className="radio-row">
             <label className="radio">
               <input
@@ -89,7 +90,7 @@ export default function PostoRetirada({ onBack, onNext }) {
                 checked={modo === 'cidade'}
                 onChange={() => setModo('cidade')}
               />
-              <span>Cidade</span>
+              <span>{t('posto.city')}</span>
             </label>
             <label className="radio">
               <input
@@ -98,25 +99,25 @@ export default function PostoRetirada({ onBack, onNext }) {
                 checked={modo === 'cep'}
                 onChange={() => setModo('cep')}
               />
-              <span>CEP</span>
+              <span>{t('posto.cep')}</span>
             </label>
           </div>
         </div>
 
         {modo === 'cidade' ? (
           <label className="field">
-            <span className="field-label">Pesquisar por cidade</span>
+            <span className="field-label">{t('posto.searchCity')}</span>
             <input
               type="text"
               className="field-input field-input-highlight"
-              placeholder="Digite o nome da cidade..."
+              placeholder={t('posto.searchCityPlaceholder')}
               value={busca}
               onChange={(e) => setBusca(e.target.value)}
             />
           </label>
         ) : (
           <label className="field">
-            <span className="field-label">CEP</span>
+            <span className="field-label">{t('posto.cep')}</span>
             <input
               type="text"
               className="field-input"
@@ -130,7 +131,7 @@ export default function PostoRetirada({ onBack, onNext }) {
 
         {cidadeSelecionada ? (
           <div className="postos">
-            <h3 className="postos-title">Postos disponíveis</h3>
+            <h3 className="postos-title">{t('posto.available')}</h3>
             <button
               type="button"
               className={`posto-card ${postoId === cidadeSelecionada.nome ? 'is-selected' : ''}`}
@@ -154,7 +155,7 @@ export default function PostoRetirada({ onBack, onNext }) {
           </div>
         ) : (
           <div className="cidades-list">
-            <h3 className="cidades-title">Todas as cidades</h3>
+            <h3 className="cidades-title">{t('posto.allCities')}</h3>
             <ul>
               {cidadesFiltradas.map((c) => (
                 <li key={c.nome}>
@@ -167,7 +168,7 @@ export default function PostoRetirada({ onBack, onNext }) {
                       <span className="cidade-pin"><PinIcon size={16} /></span>
                       {c.nome}
                     </span>
-                    <span className="cidade-row-right">{c.postos} posto</span>
+                    <span className="cidade-row-right">{c.postos} {t('posto.unit')}</span>
                   </button>
                 </li>
               ))}

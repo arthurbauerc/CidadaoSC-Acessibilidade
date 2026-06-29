@@ -3,10 +3,12 @@ import PageHeader from '../components/PageHeader'
 import Footer from '../components/Footer'
 import InfoBanner from '../components/InfoBanner'
 import { SearchIcon, CheckCircleIcon } from '../components/Icons'
+import { useLanguage } from '../i18n'
 
 const PROTOCOLO = '0202612550377'
 
 export default function CancelarAgendamento({ email = 'seu e-mail', onBack, onNext }) {
+  const { t } = useLanguage()
   const [step, setStep] = useState('confirm') // confirm | codigo | validado
   const [code, setCode] = useState('')
   const [seconds, setSeconds] = useState(0)
@@ -20,8 +22,8 @@ export default function CancelarAgendamento({ email = 'seu e-mail', onBack, onNe
   const Header = () => (
     <PageHeader
       icon={<SearchIcon size={22} />}
-      breadcrumb="Agendamento"
-      title="Cancelar agendamento"
+      breadcrumb={t('cancelAg.breadcrumb')}
+      title={t('cancelAg.title')}
     />
   )
 
@@ -33,8 +35,8 @@ export default function CancelarAgendamento({ email = 'seu e-mail', onBack, onNe
           <div className="validado-box">
             <CheckCircleIcon size={56} />
             <div>
-              <strong>Código de segurança validado!</strong>
-              <span>Você já pode prosseguir.</span>
+              <strong>{t('cancelAg.validated')}</strong>
+              <span>{t('cancelAg.canProceed')}</span>
             </div>
           </div>
           <Footer onBack={() => setStep('codigo')} onNext={onNext} />
@@ -49,18 +51,17 @@ export default function CancelarAgendamento({ email = 'seu e-mail', onBack, onNe
         <Header />
         <div className="flow-body">
           <InfoBanner tone="blue">
-            Enviamos um código de segurança para seu e-mail. Verifique sua caixa de entrada
-            e também a pasta de spam.
+            {t('cancelAg.codeInfo')}
           </InfoBanner>
 
           <label className="field">
             <span className="field-label">
-              Código de segurança<span className="required">*</span>
+              {t('cancelAg.codeLabel')}<span className="required">*</span>
             </span>
             <input
               type="text"
               className="field-input"
-              placeholder="Digite o código enviado para seu e-mail..."
+              placeholder={t('cancelAg.codePlaceholder')}
               value={code}
               onChange={(e) => setCode(e.target.value)}
             />
@@ -72,17 +73,17 @@ export default function CancelarAgendamento({ email = 'seu e-mail', onBack, onNe
             onClick={() => setStep('validado')}
             disabled={code.trim().length === 0}
           >
-            Verificar
+            {t('cancelAg.verify')}
           </button>
 
-          <p className="resend-label">Não recebeu seu código? Solicite o reenvio abaixo:</p>
+          <p className="resend-label">{t('cancelAg.resendNote')}</p>
           <button
             type="button"
             className="btn-outline-block"
             disabled={seconds > 0}
             onClick={() => setSeconds(60)}
           >
-            {seconds > 0 ? `Reenviar por e-mail (${seconds}s)` : 'Reenviar por e-mail'}
+            {seconds > 0 ? `${t('cancelAg.resend')} (${seconds}s)` : t('cancelAg.resend')}
           </button>
 
           <Footer onBack={() => setStep('confirm')} nextDisabled />
@@ -96,21 +97,20 @@ export default function CancelarAgendamento({ email = 'seu e-mail', onBack, onNe
       <Header />
       <div className="flow-body">
         <div className="cancel-confirm">
-          <h2>Deseja cancelar o agendamento #{PROTOCOLO}?</h2>
+          <h2>{t('cancelAg.question')} #{PROTOCOLO}?</h2>
           <p>
-            Para prosseguir, precisamos validar sua identidade através de um código de
-            verificação enviado para o seu e-mail cadastrado.
+            {t('cancelAg.validateIdentity')}
           </p>
           <div className="email-box">
-            <span>O código será enviado para:</span>
+            <span>{t('cancelAg.codeSentTo')}</span>
             <strong>{email}</strong>
           </div>
           <div className="cancel-confirm-actions">
             <button type="button" className="btn-back" onClick={onBack}>
-              Voltar
+              {t('back')}
             </button>
             <button type="button" className="btn-blue" onClick={() => setStep('codigo')}>
-              Confirmar e enviar código
+              {t('cancelAg.confirmSend')}
             </button>
           </div>
         </div>

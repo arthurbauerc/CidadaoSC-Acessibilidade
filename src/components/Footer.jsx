@@ -1,8 +1,11 @@
-export default function Footer({ onBack, onNext, backLabel = 'Voltar', nextLabel = 'Prosseguir', nextDisabled = false }) {
+import { useLanguage } from '../i18n'
+
+export default function Footer({ onBack, onNext, backLabel, nextLabel, nextDisabled = false }) {
+  const { t } = useLanguage()
   return (
     <div className="flow-footer">
       <button type="button" className="btn-back" onClick={onBack}>
-        {backLabel}
+        {backLabel || t('back')}
       </button>
       <button
         type="button"
@@ -10,7 +13,7 @@ export default function Footer({ onBack, onNext, backLabel = 'Voltar', nextLabel
         onClick={onNext}
         disabled={nextDisabled}
       >
-        {nextLabel}
+        {nextLabel || t('next')}
       </button>
     </div>
   )

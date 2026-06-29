@@ -6,6 +6,7 @@ import InfoBanner from '../components/InfoBanner'
 import DateModal from '../components/DateModal'
 import TimeModal from '../components/TimeModal'
 import { CalendarIcon, CalendarInputIcon, ClockIcon, TrashIcon } from '../components/Icons'
+import { useLanguage } from '../i18n'
 
 const MAX_ADICIONAIS = 3
 
@@ -33,6 +34,7 @@ function PickerField({ label, value, placeholder, icon, onClick }) {
 }
 
 export default function DataHora({ onBack, onNext }) {
+  const { t } = useLanguage()
   const [principal, setPrincipal] = useState({
     nome: 'Arthur Bauer Cardoso',
     nascimento: '07/10/2005',
@@ -88,31 +90,31 @@ export default function DataHora({ onBack, onNext }) {
     <section className="page page-flow">
       <PageHeader
         icon={<CalendarIcon size={24} />}
-        breadcrumb="Novo agendamento"
-        title="Data e Hora"
+        breadcrumb={t('dataHora.breadcrumb')}
+        title={t('dataHora.title')}
         stepper={<Stepper total={5} current={2} />}
       />
 
       <div className="flow-body flow-body-wide">
-        <InfoBanner>Selecione a data e hora de realização do seu atendimento.</InfoBanner>
+        <InfoBanner>{t('dataHora.info')}</InfoBanner>
 
         <div className="ag-card">
           {/* Requerente principal */}
           <div className="requerente-card">
-            <h3 className="requerente-title">Requerente</h3>
+            <h3 className="requerente-title">{t('dataHora.requerente')}</h3>
 
             <div className="req-grid">
               <label className="field">
-                <span className="field-label">Nome<span className="required">*</span></span>
+                <span className="field-label">{t('dataHora.nome')}<span className="required">*</span></span>
                 <input
                   className="field-input"
-                  placeholder="Nome"
+                  placeholder={t('dataHora.nome')}
                   value={principal.nome}
                   onChange={(e) => setField('principal', 'nome', e.target.value)}
                 />
               </label>
               <label className="field">
-                <span className="field-label">Data de nascimento<span className="required">*</span></span>
+                <span className="field-label">{t('dataHora.nascimento')}<span className="required">*</span></span>
                 <input
                   className="field-input"
                   placeholder="DD/MM/AAAA"
@@ -124,11 +126,11 @@ export default function DataHora({ onBack, onNext }) {
             </div>
 
             <label className="field">
-              <span className="field-label">E-mail<span className="required">*</span></span>
+              <span className="field-label">{t('dataHora.email')}<span className="required">*</span></span>
               <input
                 type="email"
                 className="field-input"
-                placeholder="Digite seu e-mail..."
+                placeholder={t('dataHora.emailPlaceholder')}
                 value={principal.email}
                 onChange={(e) => setField('principal', 'email', e.target.value)}
               />
@@ -136,7 +138,7 @@ export default function DataHora({ onBack, onNext }) {
 
             <div className="req-grid">
               <label className="field">
-                <span className="field-label">CPF <span className="optional">(Opcional)</span></span>
+                <span className="field-label">{t('dataHora.cpf')} <span className="optional">{t('dataHora.opcional')}</span></span>
                 <input
                   className="field-input"
                   placeholder="000.000.000-00"
@@ -146,7 +148,7 @@ export default function DataHora({ onBack, onNext }) {
                 />
               </label>
               <label className="field">
-                <span className="field-label">Telefone celular<span className="required">*</span></span>
+                <span className="field-label">{t('dataHora.telefone')}<span className="required">*</span></span>
                 <input
                   className="field-input"
                   placeholder="(00) 00000-0000"
@@ -158,16 +160,16 @@ export default function DataHora({ onBack, onNext }) {
 
             <div className="req-grid">
               <PickerField
-                label="Data"
+                label={t('dataHora.data')}
                 value={principal.data}
-                placeholder="Selecione"
+                placeholder={t('select')}
                 icon={<CalendarInputIcon />}
                 onClick={() => setModal({ kind: 'date', who: 'principal' })}
               />
               <PickerField
-                label="Horário agendado"
+                label={t('dataHora.horario')}
                 value={principal.horario}
-                placeholder="Selecione"
+                placeholder={t('select')}
                 icon={<ClockIcon />}
                 onClick={() => setModal({ kind: 'time', who: 'principal' })}
               />
@@ -179,13 +181,13 @@ export default function DataHora({ onBack, onNext }) {
             <div className="requerente-card" key={i}>
               <div className="requerente-title-row">
                 <h3 className="requerente-title">
-                  Adicional <span className="req-index">#{i + 1}</span>
+                  {t('dataHora.adicional')} <span className="req-index">#{i + 1}</span>
                 </h3>
                 <button
                   type="button"
                   className="btn-remove-req"
-                  aria-label="Remover requerente"
-                  title="Remover requerente"
+                  aria-label={t('dataHora.removeReq')}
+                  title={t('dataHora.removeReq')}
                   onClick={() => removeRequerente(i)}
                 >
                   <TrashIcon />
@@ -194,16 +196,16 @@ export default function DataHora({ onBack, onNext }) {
 
               <div className="req-grid">
                 <label className="field">
-                  <span className="field-label">Nome<span className="required">*</span></span>
+                  <span className="field-label">{t('dataHora.nome')}<span className="required">*</span></span>
                   <input
                     className="field-input"
-                    placeholder="Digite..."
+                    placeholder={t('dataHora.digitePlaceholder')}
                     value={a.nome}
                     onChange={(e) => setField(i, 'nome', e.target.value)}
                   />
                 </label>
                 <label className="field">
-                  <span className="field-label">Data de nascimento<span className="required">*</span></span>
+                  <span className="field-label">{t('dataHora.nascimento')}<span className="required">*</span></span>
                   <input
                     className="field-input"
                     placeholder="DD/MM/AAAA"
@@ -216,16 +218,16 @@ export default function DataHora({ onBack, onNext }) {
 
               <div className="req-grid">
                 <PickerField
-                  label="Data"
+                  label={t('dataHora.data')}
                   value={a.data}
-                  placeholder="Selecione"
+                  placeholder={t('select')}
                   icon={<CalendarInputIcon />}
                   onClick={() => setModal({ kind: 'date', who: i })}
                 />
                 <PickerField
-                  label="Horário agendado"
+                  label={t('dataHora.horario')}
                   value={a.horario}
-                  placeholder="Selecione"
+                  placeholder={t('select')}
                   icon={<ClockIcon />}
                   onClick={() => setModal({ kind: 'time', who: i })}
                 />
@@ -240,9 +242,9 @@ export default function DataHora({ onBack, onNext }) {
           onClick={addRequerente}
           disabled={adicionais.length >= MAX_ADICIONAIS}
         >
-          Adicionar novo requerente
+          {t('dataHora.addReq')}
         </button>
-        <p className="add-req-note">*Limitado a {MAX_ADICIONAIS} requerentes adicionais.</p>
+        <p className="add-req-note">{t('dataHora.addReqNote').replace('{n}', MAX_ADICIONAIS)}</p>
       </div>
 
       <Footer

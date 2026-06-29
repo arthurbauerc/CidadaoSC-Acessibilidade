@@ -1,11 +1,9 @@
 import { useState } from 'react'
 import { ChevronLeft, ChevronRight } from './Icons'
-
-const WEEKDAYS = ['DOM', 'SEG', 'TER', 'QUA', 'QUI', 'SEX', 'SAB']
+import { useLanguage } from '../i18n'
 
 // Junho de 2026 começa numa segunda-feira (offset 1 a partir de domingo).
 const MONTH = {
-  label: 'Junho de 2026',
   year: 2026,
   month: 6,
   firstWeekday: 1, // segunda
@@ -18,6 +16,9 @@ function pad(n) {
 }
 
 export default function DateModal({ value, onConfirm, onClose }) {
+  const { t } = useLanguage()
+  const weekdays = t('dateModal.weekdays').split(',')
+
   const [selected, setSelected] = useState(() => {
     if (!value) return null
     const day = parseInt(value.split('/')[0], 10)
@@ -31,20 +32,20 @@ export default function DateModal({ value, onConfirm, onClose }) {
   return (
     <div className="modal-overlay" role="dialog" aria-modal="true">
       <div className="modal modal-calendar">
-        <h2>Data de agendamento</h2>
+        <h2>{t('dateModal.title')}</h2>
 
         <div className="cal-nav">
-          <button type="button" className="cal-arrow" aria-label="Mês anterior">
+          <button type="button" className="cal-arrow" aria-label={t('dateModal.prevMonth')}>
             <ChevronLeft />
           </button>
-          <span className="cal-month">{MONTH.label}</span>
-          <button type="button" className="cal-arrow" aria-label="Próximo mês">
+          <span className="cal-month">{t('dateModal.month.june2026')}</span>
+          <button type="button" className="cal-arrow" aria-label={t('dateModal.nextMonth')}>
             <ChevronRight />
           </button>
         </div>
 
         <div className="cal-weekdays">
-          {WEEKDAYS.map((w) => (
+          {weekdays.map((w) => (
             <span key={w}>{w}</span>
           ))}
         </div>
@@ -70,21 +71,21 @@ export default function DateModal({ value, onConfirm, onClose }) {
         </div>
 
         <div className="cal-legend">
-          <span className="cal-legend-title">Legenda</span>
+          <span className="cal-legend-title">{t('dateModal.legend')}</span>
           <span className="cal-legend-item">
-            <span className="cal-cell is-disabled cal-legend-swatch">1</span> Indisponível
+            <span className="cal-cell is-disabled cal-legend-swatch">1</span> {t('dateModal.unavailable')}
           </span>
           <span className="cal-legend-item">
-            <span className="cal-cell is-available cal-legend-swatch">1</span> Disponível
+            <span className="cal-cell is-available cal-legend-swatch">1</span> {t('dateModal.available')}
           </span>
           <span className="cal-legend-item">
-            <span className="cal-cell is-selected cal-legend-swatch">1</span> Selecionado
+            <span className="cal-cell is-selected cal-legend-swatch">1</span> {t('dateModal.selected')}
           </span>
         </div>
 
         <div className="modal-actions">
           <button type="button" className="btn-back" onClick={onClose}>
-            Voltar
+            {t('back')}
           </button>
           <button
             type="button"
@@ -94,7 +95,7 @@ export default function DateModal({ value, onConfirm, onClose }) {
               onConfirm?.(`${pad(selected)}/${pad(MONTH.month)}/${MONTH.year}`)
             }
           >
-            Confirmar
+            {t('confirm')}
           </button>
         </div>
       </div>

@@ -12,6 +12,7 @@ import {
   PlusIcon,
   MinusIcon,
 } from '../components/Icons'
+import { useLanguage } from '../i18n'
 
 const PROTOCOLO = '0202612542700'
 const DATA_SOLICITACAO = '20/06/2026'
@@ -33,39 +34,37 @@ function StatusItem({ icon, tone = 'plain', title, open, onToggle, highlight, ch
   )
 }
 
-function CancelModal({ onClose, onConfirmar, onAgendamento }) {
+function CancelModal({ onClose, onConfirmar, onAgendamento, t }) {
   return (
     <div className="modal-overlay" role="dialog" aria-modal="true">
       <div className="modal modal-cancel">
-        <h2>Cancelar emissão online</h2>
+        <h2>{t('final.modal.title')}</h2>
         <div className="modal-cancel-body">
           <div className="alert-warn">
-            Ao prosseguir com o cancelamento, todo o processo em andamento será perdido e
-            não poderá ser recuperado.
+            {t('final.modal.warn')}
           </div>
 
           <button type="button" className="opt-card" onClick={onConfirmar}>
             <div className="opt-card-head">
               <XCircleIcon size={22} />
-              <strong>Sim, quero cancelar</strong>
+              <strong>{t('final.modal.simCancelar')}</strong>
             </div>
             <p>
-              Você seguirá com o cancelamento do processo de emissão online da Carteira de
-              Identidade Nacional.
+              {t('final.modal.simCancelarDesc')}
             </p>
           </button>
 
           <button type="button" className="opt-card" onClick={onAgendamento}>
             <div className="opt-card-head">
               <span className="opt-icon-green"><CalendarIcon size={20} /></span>
-              <strong>Agendamento presencial</strong>
+              <strong>{t('final.modal.agendamento')}</strong>
             </div>
-            <p>Agende um atendimento para emissão da Carteira Nacional de Identidade (CIN).</p>
+            <p>{t('final.modal.agendamentoDesc')}</p>
           </button>
         </div>
         <div className="modal-cancel-footer">
           <button type="button" className="btn-back btn-block" onClick={onClose}>
-            Voltar
+            {t('back')}
           </button>
         </div>
       </div>
@@ -74,6 +73,7 @@ function CancelModal({ onClose, onConfirmar, onAgendamento }) {
 }
 
 export default function SolicitacaoFinalizada({ onHome, onCancelar, onAgendamento }) {
+  const { t } = useLanguage()
   const [openPedido, setOpenPedido] = useState(true)
   const [openPagamento, setOpenPagamento] = useState(true)
   const [tentativa, setTentativa] = useState(2)
@@ -84,41 +84,39 @@ export default function SolicitacaoFinalizada({ onHome, onCancelar, onAgendament
   useEffect(() => {
     if (taxaDisponivel) return
     if (tentativa >= 4) {
-      const t = setTimeout(() => setTaxaDisponivel(true), 1200)
-      return () => clearTimeout(t)
+      const timer = setTimeout(() => setTaxaDisponivel(true), 1200)
+      return () => clearTimeout(timer)
     }
-    const t = setTimeout(() => setTentativa((n) => n + 1), 1500)
-    return () => clearTimeout(t)
+    const timer = setTimeout(() => setTentativa((n) => n + 1), 1500)
+    return () => clearTimeout(timer)
   }, [tentativa, taxaDisponivel])
 
   return (
     <section className="page page-flow">
       <PageHeader
         icon={<CalendarIcon size={24} />}
-        breadcrumb="Emissão Online"
-        title="Solicitação finalizada"
+        breadcrumb={t('final.breadcrumb')}
+        title={t('final.title')}
         stepper={<Stepper total={5} current={6} />}
       />
 
       <div className="flow-body">
         <div className="info-banner">
           <p>
-            Sua solicitação de emissão Online da Carteira de Identidade Nacional foi
-            realizada.
+            {t('final.solicitacaoRealizada')}
           </p>
           <p>
-            <strong>Lembre-se:</strong> É necessária a apresentação da guia de solicitação
-            para a retirada do documento.
+            <strong>{t('final.lembreSe')}</strong> {t('final.lembreSeDesc')}
           </p>
         </div>
 
         <div className="protocolo-row">
           <div className="protocolo-field">
-            <span className="resumo-label">Número de protocolo</span>
+            <span className="resumo-label">{t('final.protocolo')}</span>
             <span className="chip chip-muted"><ClipboardIcon size={14} />{PROTOCOLO}</span>
           </div>
           <div className="protocolo-field">
-            <span className="resumo-label">Data da solicitação</span>
+            <span className="resumo-label">{t('final.dataSolicitacao')}</span>
             <span className="chip chip-muted"><CalendarInputIcon size={14} />{DATA_SOLICITACAO}</span>
           </div>
         </div>
@@ -127,18 +125,18 @@ export default function SolicitacaoFinalizada({ onHome, onCancelar, onAgendament
           <StatusItem
             icon={<CheckCircleIcon size={22} />}
             tone="done"
-            title="Pedido recebido"
+            title={t('final.pedidoRecebido')}
             open={openPedido}
             onToggle={() => setOpenPedido((o) => !o)}
           >
-            <p className="status-text">Sua solicitação foi recebida com sucesso.</p>
-            <p className="status-date">Data de conclusão {DATA_SOLICITACAO}</p>
+            <p className="status-text">{t('final.pedidoRecebidoDesc')}</p>
+            <p className="status-date">{t('final.dataConclusao')} {DATA_SOLICITACAO}</p>
           </StatusItem>
 
           <StatusItem
             icon={taxaDisponivel ? <ClockIcon size={16} /> : <RefreshIcon size={16} />}
             tone={taxaDisponivel ? 'amber' : 'loading'}
-            title="Pagamento da taxa"
+            title={t('final.pagamentoTaxa')}
             open={openPagamento}
             onToggle={() => setOpenPagamento((o) => !o)}
             highlight={taxaDisponivel}
@@ -146,20 +144,19 @@ export default function SolicitacaoFinalizada({ onHome, onCancelar, onAgendament
             {taxaDisponivel ? (
               <>
                 <p className="status-text">
-                  Taxa disponível para pagamento. Clique no link abaixo para realizar o
-                  pagamento.
+                  {t('final.taxaDisponivel')}
                 </p>
-                <p className="status-date">Data de conclusão {DATA_SOLICITACAO}</p>
+                <p className="status-date">{t('final.dataConclusao')} {DATA_SOLICITACAO}</p>
                 <button type="button" className="btn-primary btn-block">
-                  Baixar guia de pagamento
+                  {t('final.baixarGuiaPagamento')}
                 </button>
               </>
             ) : (
               <>
                 <p className="status-text">
-                  Buscando taxa de pagamento... (tentativa {tentativa}/10)
+                  {t('final.buscandoTaxa')} ({t('final.tentativa')} {tentativa}/10)
                 </p>
-                <p className="status-date">Data de conclusão {DATA_SOLICITACAO}</p>
+                <p className="status-date">{t('final.dataConclusao')} {DATA_SOLICITACAO}</p>
               </>
             )}
           </StatusItem>
@@ -167,21 +164,16 @@ export default function SolicitacaoFinalizada({ onHome, onCancelar, onAgendament
 
         {taxaDisponivel && (
           <button type="button" className="btn-primary btn-block">
-            Baixar guia de protocolo
+            {t('final.baixarGuiaProtocolo')}
           </button>
         )}
 
         <div className="info-banner">
           <p>
-            Você irá baixar o boleto de pagamento para sua solicitação. Lembre-se: a sua
-            Carteira de Identidade Nacional somente será impressa após a compensação do
-            pagamento, que pode ocorrer em até 3 dias após, mesmo que tenha sido efetuado
-            via PIX.
+            {t('final.infoBoleto')}
           </p>
           <p>
-            Acompanhe seu pedido: o status da sua solicitação de Carteira de Identidade
-            Nacional pode ser consultado com o número do protocolo diretamente no site da
-            Polícia Científica de Santa Catarina.
+            {t('final.acompanhePedido')}
           </p>
           <p>
             <a
@@ -190,17 +182,17 @@ export default function SolicitacaoFinalizada({ onHome, onCancelar, onAgendament
               target="_blank"
               rel="noreferrer"
             >
-              Clique aqui para acessar a consulta de protocolo
+              {t('final.linkConsulta')}
             </a>
           </p>
         </div>
 
         <div className="flow-actions-inline">
           <button type="button" className="btn-back" onClick={onHome}>
-            Página inicial
+            {t('home')}
           </button>
           <button type="button" className="btn-cancel-outline" onClick={() => setModalOpen(true)}>
-            Cancelar solicitação
+            {t('final.cancelar')}
           </button>
         </div>
       </div>
@@ -210,6 +202,7 @@ export default function SolicitacaoFinalizada({ onHome, onCancelar, onAgendament
           onClose={() => setModalOpen(false)}
           onConfirmar={onCancelar}
           onAgendamento={onAgendamento}
+          t={t}
         />
       )}
     </section>

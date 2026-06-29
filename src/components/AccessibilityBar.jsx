@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from 'react'
+import { useLanguage } from '../i18n'
 import './AccessibilityBar.css'
 
 const STORAGE_KEY = 'a11y-settings'
@@ -39,21 +40,21 @@ function resolveReadable(target) {
   return target.closest(READ_SELECTOR)
 }
 
-function roleWord(el) {
+function roleWord(el, t) {
   const tag = el.tagName.toLowerCase()
   const role = el.getAttribute('role')
-  if (tag === 'button' || role === 'button') return 'botão'
-  if (tag === 'a') return 'link'
-  if (tag === 'img' || role === 'img') return 'imagem'
-  if (tag === 'select') return 'lista de seleção'
-  if (tag === 'textarea') return 'campo de texto'
+  if (tag === 'button' || role === 'button') return t('role.button')
+  if (tag === 'a') return t('role.link')
+  if (tag === 'img' || role === 'img') return t('role.image')
+  if (tag === 'select') return t('role.select')
+  if (tag === 'textarea') return t('role.textarea')
   if (tag === 'input') {
-    const t = (el.getAttribute('type') || 'text').toLowerCase()
-    if (t === 'checkbox') return 'caixa de seleção'
-    if (t === 'radio') return 'opção'
-    return 'campo de texto'
+    const tp = (el.getAttribute('type') || 'text').toLowerCase()
+    if (tp === 'checkbox') return t('role.checkbox')
+    if (tp === 'radio') return t('role.radio')
+    return t('role.textfield')
   }
-  if (/^h[1-4]$/.test(tag)) return 'título'
+  if (/^h[1-4]$/.test(tag)) return t('role.heading')
   return ''
 }
 
@@ -98,34 +99,34 @@ function accessibleName(el) {
 }
 
 // Estado extra (marcada/ativada) para componentes interativos.
-function stateSuffix(el) {
+function stateSuffix(el, t) {
   const tag = el.tagName.toLowerCase()
   if (tag === 'input') {
-    const t = (el.getAttribute('type') || '').toLowerCase()
-    if (t === 'checkbox') return el.checked ? ', marcada' : ', não marcada'
-    if (t === 'radio') return el.checked ? ', selecionada' : ', não selecionada'
+    const tp = (el.getAttribute('type') || '').toLowerCase()
+    if (tp === 'checkbox') return el.checked ? t('state.checked') : t('state.unchecked')
+    if (tp === 'radio') return el.checked ? t('state.selected') : t('state.unselected')
   }
   const pressed = el.getAttribute('aria-pressed')
-  if (pressed === 'true') return ', selecionado'
+  if (pressed === 'true') return t('state.pressed')
   const expanded = el.getAttribute('aria-expanded')
-  if (expanded === 'true') return ', expandido'
-  if (expanded === 'false') return ', recolhido'
-  if (el.disabled) return ', desabilitado'
+  if (expanded === 'true') return t('state.expanded')
+  if (expanded === 'false') return t('state.collapsed')
+  if (el.disabled) return t('state.disabled')
   return ''
 }
 
-function describeElement(el) {
+function describeElement(el, t) {
   const name = accessibleName(el)
   if (!name) return ''
-  const role = roleWord(el)
+  const role = roleWord(el, t)
   const prefix = role ? `${role}, ` : ''
-  return `${prefix}${name}${stateSuffix(el)}`.slice(0, 280)
+  return `${prefix}${name}${stateSuffix(el, t)}`.slice(0, 280)
 }
 
-function speakText(text) {
+function speakText(text, langCode) {
   if (!window.speechSynthesis || !text) return
   const u = new SpeechSynthesisUtterance(text)
-  u.lang = 'pt-BR'
+  u.lang = langCode || 'pt-BR'
   window.speechSynthesis.cancel() // evita leituras sobrepostas/duplicadas
   window.speechSynthesis.speak(u)
 }
@@ -151,7 +152,14 @@ const I = {
   letterSpacing: <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" d="M3 20V8m18 12V8M7 16l3-8 3 8m-5-3h4" /></svg>,
   fontStyle: <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M6 18 10 6h2l4 12h-2l-1-3H9l-1 3H6Zm3.5-5h3L11 8.5 9.5 13Z" /><path fill="none" stroke="currentColor" strokeWidth="1.6" d="M17 16h3" /></svg>,
   media: <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="none" stroke="currentColor" strokeWidth="2" d="M3 5h18v12H3z" /><path fill="currentColor" d="M10 9v4l4-2-4-2Z" /></svg>,
+  globe: <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" strokeWidth="2" /><path fill="none" stroke="currentColor" strokeWidth="1.5" d="M3 12h18M12 3c-2.5 3-3 6-3 9s.5 6 3 9c2.5-3 3-6 3-9s-.5-6-3-9Z" /></svg>,
 }
+
+const LANGS = [
+  { id: 'pt-BR', label: 'PT', full: 'Português' },
+  { id: 'en', label: 'EN', full: 'English' },
+  { id: 'es', label: 'ES', full: 'Español' },
+]
 
 function SegButton({ active, onClick, children, label }) {
   return (
@@ -168,6 +176,7 @@ function SegButton({ active, onClick, children, label }) {
 }
 
 export default function AccessibilityBar() {
+  const { t, lang, setLang } = useLanguage()
   const [open, setOpen] = useState(false)
   const [advanced, setAdvanced] = useState(true)
   const [readerOn, setReaderOn] = useState(false)
@@ -176,6 +185,8 @@ export default function AccessibilityBar() {
   const panelRef = useRef(null)
   const lastReadRef = useRef(null)
   const hoverTimerRef = useRef(null)
+
+  const langCode = t('lang.code')
 
   const set = (patch) => setSettings((s) => ({ ...s, ...patch }))
 
@@ -227,22 +238,22 @@ export default function AccessibilityBar() {
     const announce = (target) => {
       const el = resolveReadable(target)
       if (!el || el === lastReadRef.current) return
-      const text = describeElement(el)
+      const text = describeElement(el, t)
       if (!text) return
       lastReadRef.current = el
-      speakText(text)
+      speakText(text, langCode)
     }
 
     const onFocusIn = (e) => announce(e.target)
     const onOver = (e) => {
       clearTimeout(hoverTimerRef.current)
-      const t = e.target
-      hoverTimerRef.current = setTimeout(() => announce(t), 120)
+      const target = e.target
+      hoverTimerRef.current = setTimeout(() => announce(target), 120)
     }
 
     document.addEventListener('focusin', onFocusIn)
     document.addEventListener('mouseover', onOver)
-    speakText('Leitor de tela ativado. Navegue pelos elementos para ouvir a descrição.')
+    speakText(t('a11y.readerActivated'), langCode)
 
     return () => {
       document.removeEventListener('focusin', onFocusIn)
@@ -250,7 +261,7 @@ export default function AccessibilityBar() {
       clearTimeout(hoverTimerRef.current)
       window.speechSynthesis?.cancel()
     }
-  }, [readerOn])
+  }, [readerOn, t, langCode])
 
   // Para a leitura ao desmontar.
   useEffect(() => () => window.speechSynthesis?.cancel(), [])
@@ -284,8 +295,8 @@ export default function AccessibilityBar() {
         ref={launcherRef}
         className="a11y-launcher"
         onClick={openPanel}
-        aria-label="Abrir painel de acessibilidade"
-        title="Acessibilidade"
+        aria-label={t('a11y.open')}
+        title={t('a11y.openTitle')}
       >
         <svg viewBox="0 0 24 24" width="26" height="26" aria-hidden="true">
           <circle cx="12" cy="12" r="11" fill="currentColor" />
@@ -297,27 +308,47 @@ export default function AccessibilityBar() {
   }
 
   const themes = [
-    { id: 'normal', label: 'Tema padrão' },
-    { id: 'dark', label: 'Tema escuro' },
-    { id: 'blue', label: 'Tema azul' },
-    { id: 'sepia', label: 'Tema sépia' },
-    { id: 'contrast', label: 'Tema alto contraste' },
+    { id: 'normal', label: t('a11y.themeNormal') },
+    { id: 'dark', label: t('a11y.themeDark') },
+    { id: 'blue', label: t('a11y.themeBlue') },
+    { id: 'sepia', label: t('a11y.themeSepia') },
+    { id: 'contrast', label: t('a11y.themeContrast') },
   ]
 
   return (
     <section
       className="a11y-bar"
       role="region"
-      aria-label="Ferramentas de acessibilidade"
+      aria-label={t('a11y.region')}
       ref={panelRef}
       onKeyDown={onKeyDown}
     >
       <div className="a11y-row a11y-row-top">
+        {/* IDIOMA */}
+        <div className="a11y-group" role="group" aria-label={t('a11y.langGroup')}>
+          <span className="a11y-title">
+            <span className="a11y-title-icon">{I.globe}</span>
+            {t('a11y.language')}
+          </span>
+          <div className="a11y-controls">
+            {LANGS.map((l) => (
+              <SegButton
+                key={l.id}
+                active={lang === l.id}
+                onClick={() => setLang(l.id)}
+                label={l.full}
+              >
+                {l.label}
+              </SegButton>
+            ))}
+          </div>
+        </div>
+
         {/* TAMANHO DA FONTE */}
-        <div className="a11y-group" role="group" aria-label="Tamanho da fonte">
+        <div className="a11y-group" role="group" aria-label={t('a11y.fontSize')}>
           <span className="a11y-title">
             <span className="a11y-title-icon">{I.font}</span>
-            Tamanho da fonte {settings.fontPx}px
+            {t('a11y.fontSize')} {settings.fontPx}px
           </span>
           <div className="a11y-controls">
             <button
@@ -325,7 +356,7 @@ export default function AccessibilityBar() {
               className="a11y-btn"
               onClick={() => changeFont(-1)}
               disabled={settings.fontPx <= FONT_MIN}
-              aria-label="Diminuir tamanho da fonte"
+              aria-label={t('a11y.fontDecrease')}
             >
               <span aria-hidden="true">−</span>
             </button>
@@ -334,7 +365,7 @@ export default function AccessibilityBar() {
               className="a11y-btn"
               onClick={() => changeFont(1)}
               disabled={settings.fontPx >= FONT_MAX}
-              aria-label="Aumentar tamanho da fonte"
+              aria-label={t('a11y.fontIncrease')}
             >
               <span aria-hidden="true">+</span>
             </button>
@@ -342,20 +373,20 @@ export default function AccessibilityBar() {
         </div>
 
         {/* TEMA */}
-        <div className="a11y-group" role="group" aria-label="Tema de cores">
+        <div className="a11y-group" role="group" aria-label={t('a11y.themeGroup')}>
           <span className="a11y-title">
-            <span className="a11y-title-icon">{I.palette}</span>Tema
+            <span className="a11y-title-icon">{I.palette}</span>{t('a11y.theme')}
           </span>
           <div className="a11y-controls">
-            {themes.map((t) => (
+            {themes.map((th) => (
               <button
-                key={t.id}
+                key={th.id}
                 type="button"
-                className={`a11y-theme a11y-theme-sw-${t.id} ${settings.theme === t.id ? 'is-active' : ''}`}
-                aria-pressed={settings.theme === t.id}
-                aria-label={t.label}
-                title={t.label}
-                onClick={() => set({ theme: t.id })}
+                className={`a11y-theme a11y-theme-sw-${th.id} ${settings.theme === th.id ? 'is-active' : ''}`}
+                aria-pressed={settings.theme === th.id}
+                aria-label={th.label}
+                title={th.label}
+                onClick={() => set({ theme: th.id })}
               >
                 A
               </button>
@@ -364,58 +395,58 @@ export default function AccessibilityBar() {
         </div>
 
         {/* IMAGENS */}
-        <div className="a11y-group" role="group" aria-label="Exibição de imagens">
+        <div className="a11y-group" role="group" aria-label={t('a11y.imagesGroup')}>
           <span className="a11y-title">
-            <span className="a11y-title-icon">{I.image}</span>Imagens
+            <span className="a11y-title-icon">{I.image}</span>{t('a11y.images')}
           </span>
           <div className="a11y-controls">
-            <SegButton active={settings.images === 'show'} onClick={() => set({ images: 'show' })} label="Mostrar imagens">
+            <SegButton active={settings.images === 'show'} onClick={() => set({ images: 'show' })} label={t('a11y.imagesShow')}>
               {I.eye}
             </SegButton>
-            <SegButton active={settings.images === 'hide'} onClick={() => set({ images: 'hide' })} label="Ocultar imagens">
+            <SegButton active={settings.images === 'hide'} onClick={() => set({ images: 'hide' })} label={t('a11y.imagesHide')}>
               {I.eyeOff}
             </SegButton>
-            <SegButton active={settings.images === 'gray'} onClick={() => set({ images: 'gray' })} label="Imagens em tons de cinza">
+            <SegButton active={settings.images === 'gray'} onClick={() => set({ images: 'gray' })} label={t('a11y.imagesGray')}>
               {I.contrast}
             </SegButton>
           </div>
         </div>
 
         {/* TTS / LEITOR DE TELA */}
-        <div className="a11y-group" role="group" aria-label="Leitor de tela">
+        <div className="a11y-group" role="group" aria-label={t('a11y.readerGroup')}>
           <span className="a11y-title">
-            <span className="a11y-title-icon">{I.tts}</span>Leitor de tela
+            <span className="a11y-title-icon">{I.tts}</span>{t('a11y.reader')}
           </span>
           <div className="a11y-controls">
-            <SegButton active={readerOn} onClick={() => setReaderOn(true)} label="Ativar leitor de tela: lê o elemento em foco ou sob o cursor">
+            <SegButton active={readerOn} onClick={() => setReaderOn(true)} label={t('a11y.readerOn')}>
               {I.volume}
             </SegButton>
-            <SegButton active={!readerOn} onClick={() => setReaderOn(false)} label="Desativar leitor de tela">
+            <SegButton active={!readerOn} onClick={() => setReaderOn(false)} label={t('a11y.readerOff')}>
               {I.volumeOff}
             </SegButton>
           </div>
         </div>
 
         {/* CONFIGURAÇÕES */}
-        <div className="a11y-group" role="group" aria-label="Configurações do painel">
+        <div className="a11y-group" role="group" aria-label={t('a11y.settingsGroup')}>
           <span className="a11y-title">
-            <span className="a11y-title-icon">{I.gear}</span>Configurações
+            <span className="a11y-title-icon">{I.gear}</span>{t('a11y.settings')}
           </span>
           <div className="a11y-controls">
             <button
               type="button"
               className="a11y-btn"
               aria-expanded={advanced}
-              aria-label={advanced ? 'Recolher opções avançadas' : 'Expandir opções avançadas'}
-              title="Mais opções"
+              aria-label={advanced ? t('a11y.collapse') : t('a11y.expand')}
+              title={t('a11y.moreOptions')}
               onClick={() => setAdvanced((a) => !a)}
             >
               <span className={`a11y-chev ${advanced ? 'is-up' : ''}`} aria-hidden="true">{I.chevronDown}</span>
             </button>
-            <button type="button" className="a11y-btn" aria-label="Reiniciar configurações de acessibilidade" title="Reiniciar" onClick={reset}>
+            <button type="button" className="a11y-btn" aria-label={t('a11y.reset')} title={t('a11y.resetTitle')} onClick={reset}>
               {I.power}
             </button>
-            <button type="button" className="a11y-btn" aria-label="Fechar painel de acessibilidade" title="Fechar painel" onClick={closePanel}>
+            <button type="button" className="a11y-btn" aria-label={t('a11y.closePanel')} title={t('a11y.closePanelTitle')} onClick={closePanel}>
               {I.minimize}
             </button>
           </div>
@@ -425,60 +456,60 @@ export default function AccessibilityBar() {
       {advanced && (
         <div className="a11y-row a11y-row-advanced">
           {/* ALTURA DA LINHA */}
-          <div className="a11y-group" role="group" aria-label="Altura da linha">
+          <div className="a11y-group" role="group" aria-label={t('a11y.lineHeight')}>
             <span className="a11y-title">
-              <span className="a11y-title-icon">{I.lineHeight}</span>Altura da linha
+              <span className="a11y-title-icon">{I.lineHeight}</span>{t('a11y.lineHeight')}
             </span>
             <div className="a11y-controls">
-              <SegButton active={settings.line === 'normal'} onClick={() => set({ line: 'normal' })} label="Altura da linha normal">Normal</SegButton>
-              <SegButton active={settings.line === 'media'} onClick={() => set({ line: 'media' })} label="Altura da linha média">Média</SegButton>
-              <SegButton active={settings.line === 'max'} onClick={() => set({ line: 'max' })} label="Altura da linha máxima">Máximo</SegButton>
+              <SegButton active={settings.line === 'normal'} onClick={() => set({ line: 'normal' })} label={t('a11y.lineNormal')}>{t('a11y.normal')}</SegButton>
+              <SegButton active={settings.line === 'media'} onClick={() => set({ line: 'media' })} label={t('a11y.lineMedium')}>{t('a11y.medium')}</SegButton>
+              <SegButton active={settings.line === 'max'} onClick={() => set({ line: 'max' })} label={t('a11y.lineMax')}>{t('a11y.max')}</SegButton>
             </div>
           </div>
 
           {/* ESPAÇAMENTO ENTRE LETRAS */}
-          <div className="a11y-group" role="group" aria-label="Espaçamento entre letras">
+          <div className="a11y-group" role="group" aria-label={t('a11y.letterSpacing')}>
             <span className="a11y-title">
-              <span className="a11y-title-icon">{I.letterSpacing}</span>Espaçamento entre letras
+              <span className="a11y-title-icon">{I.letterSpacing}</span>{t('a11y.letterSpacing')}
             </span>
             <div className="a11y-controls">
-              <SegButton active={settings.letter === 'normal'} onClick={() => set({ letter: 'normal' })} label="Espaçamento normal">Normal</SegButton>
-              <SegButton active={settings.letter === 'media'} onClick={() => set({ letter: 'media' })} label="Espaçamento médio">Média</SegButton>
-              <SegButton active={settings.letter === 'max'} onClick={() => set({ letter: 'max' })} label="Espaçamento máximo">Máximo</SegButton>
+              <SegButton active={settings.letter === 'normal'} onClick={() => set({ letter: 'normal' })} label={t('a11y.letterNormal')}>{t('a11y.normal')}</SegButton>
+              <SegButton active={settings.letter === 'media'} onClick={() => set({ letter: 'media' })} label={t('a11y.letterMedium')}>{t('a11y.medium')}</SegButton>
+              <SegButton active={settings.letter === 'max'} onClick={() => set({ letter: 'max' })} label={t('a11y.letterMax')}>{t('a11y.max')}</SegButton>
             </div>
           </div>
 
           {/* ESTILO DE FONTE */}
-          <div className="a11y-group" role="group" aria-label="Estilo de fonte">
+          <div className="a11y-group" role="group" aria-label={t('a11y.fontStyle')}>
             <span className="a11y-title">
-              <span className="a11y-title-icon">{I.fontStyle}</span>Estilo de fonte
+              <span className="a11y-title-icon">{I.fontStyle}</span>{t('a11y.fontStyle')}
             </span>
             <div className="a11y-controls">
-              <SegButton active={settings.font === 'arial'} onClick={() => set({ font: 'arial' })} label="Fonte padrão Arial">Arial</SegButton>
-              <SegButton active={settings.font === 'dyslexic'} onClick={() => set({ font: 'dyslexic' })} label="Fonte OpenDyslexic para dislexia">
+              <SegButton active={settings.font === 'arial'} onClick={() => set({ font: 'arial' })} label={t('a11y.fontArial')}>Arial</SegButton>
+              <SegButton active={settings.font === 'dyslexic'} onClick={() => set({ font: 'dyslexic' })} label={t('a11y.fontDyslexic')}>
                 <span className="a11y-dys">OpenDyslexic</span>
               </SegButton>
             </div>
           </div>
 
           {/* MÍDIAS EXTERNAS */}
-          <div className="a11y-group" role="group" aria-label="Mídias externas">
+          <div className="a11y-group" role="group" aria-label={t('a11y.mediaExt')}>
             <span className="a11y-title">
-              <span className="a11y-title-icon">{I.media}</span>Mídias externas
+              <span className="a11y-title-icon">{I.media}</span>{t('a11y.mediaExt')}
             </span>
             <div className="a11y-controls">
-              <SegButton active={settings.media === 'on'} onClick={() => set({ media: 'on' })} label="Habilitar mídias externas">Habilitado</SegButton>
-              <SegButton active={settings.media === 'off'} onClick={() => set({ media: 'off' })} label="Desabilitar mídias externas">Desabilitado</SegButton>
+              <SegButton active={settings.media === 'on'} onClick={() => set({ media: 'on' })} label={t('a11y.mediaOn')}>{t('a11y.enabled')}</SegButton>
+              <SegButton active={settings.media === 'off'} onClick={() => set({ media: 'off' })} label={t('a11y.mediaOff')}>{t('a11y.disabled')}</SegButton>
             </div>
           </div>
 
           {/* AÇÕES */}
           <div className="a11y-group a11y-group-actions">
             <button type="button" className="a11y-action" onClick={reset}>
-              <span className="a11y-action-icon" aria-hidden="true">{I.reset}</span>Reiniciar
+              <span className="a11y-action-icon" aria-hidden="true">{I.reset}</span>{t('a11y.resetBtn')}
             </button>
             <button type="button" className="a11y-action" onClick={closePanel}>
-              <span className="a11y-action-icon" aria-hidden="true">{I.chevronUp}</span>Fechar Painel
+              <span className="a11y-action-icon" aria-hidden="true">{I.chevronUp}</span>{t('a11y.closePanelBtn')}
             </button>
           </div>
         </div>

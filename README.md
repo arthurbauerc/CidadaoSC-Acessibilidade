@@ -59,11 +59,11 @@ flowchart LR
 
 ---
 
-## ♿ Acessibilidade — o coração do projeto
+## ♿ Acessibilidade e Internacionalização (i18n) — O Coração do Projeto
 
 <table>
 <tr>
-<td width="33%" valign="top">
+<td width="25%" valign="top">
 
 ### 🎛️ Barra de preferências
 - Tamanho da fonte (12–28px)
@@ -75,30 +75,40 @@ flowchart LR
 - Preferências salvas (localStorage)
 
 </td>
-<td width="33%" valign="top">
+<td width="25%" valign="top">
 
 ### 🔊 Leitor de tela
 - Lê **apenas** o elemento em foco/hover
 - Descrição acessível por componente
-- Anuncia papel + nome + estado
+- Anuncia papel + nome + estado no idioma ativo
+- Acompanha a voz ideal para `pt-BR`, `en-US` ou `es-ES`
 - Sem leituras duplicadas
 - Acompanha a navegação por teclado
 
 </td>
-<td width="33%" valign="top">
+<td width="25%" valign="top">
 
-### 🤟 VLibras
+### 🌐 Multilíngue (i18n)
+- Suporte a **Português**, **Inglês** e **Espanhol**
+- Seletor de idioma direto na barra de acessibilidade
+- Tradução de todos os textos, placeholders, modais e ARIA labels
+- Estado reativo global via React Context API
+
+</td>
+<td width="25%" valign="top">
+
+### 🤟 VLibras (Condicional)
 - Widget **oficial** do gov.br
 - Tradução do conteúdo para **Libras**
 - Botão flutuante (canto inferior)
-- Carregado sob demanda
+- **Habilitado apenas em Português (pt-BR)**. Fica oculto/desativado ao selecionar Inglês ou Espanhol.
 
 </td>
 </tr>
 </table>
 
 Conformidade **WCAG**: navegação por teclado, ordem de foco, foco visível, contraste, `alt`
-em todas as imagens, rótulos e atributos ARIA, e compatibilidade com leitores de tela.
+em todas as imagens, rótulos e atributos ARIA, e compatibilidade com leitores de tela em múltiplos idiomas.
 
 ---
 
@@ -108,10 +118,11 @@ em todas as imagens, rótulos e atributos ARIA, e compatibilidade com leitores d
 |---|---|
 | **UI** | React 19 |
 | **Build / Dev** | Vite 8 |
-| **Linguagem** | JavaScript (ESM, JSX) |
+| **Linguagem** | JavaScript / JSX (ESM) |
 | **Estilo** | CSS puro + CSS Variables (temas) |
 | **Lint** | ESLint 10 |
-| **Acessibilidade** | Web Speech API · VLibras · OpenDyslexic |
+| **Internacionalização** | Context API nativa + LocalStorage (`i18n.jsx`) |
+| **Acessibilidade** | Web Speech API (Vozes Multilíngues) · VLibras · OpenDyslexic |
 
 ---
 

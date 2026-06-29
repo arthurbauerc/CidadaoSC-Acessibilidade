@@ -4,6 +4,7 @@ import Stepper from '../components/Stepper'
 import Footer from '../components/Footer'
 import InfoBanner from '../components/InfoBanner'
 import { CalendarIcon } from '../components/Icons'
+import { useLanguage } from '../i18n'
 
 function formatPhone(v) {
   const d = v.replace(/\D/g, '').slice(0, 11)
@@ -13,6 +14,7 @@ function formatPhone(v) {
 }
 
 export default function AutenticacaoContato({ onBack, onNext }) {
+  const { t } = useLanguage()
   const [email, setEmail] = useState('')
   const [phone, setPhone] = useState('')
 
@@ -24,25 +26,24 @@ export default function AutenticacaoContato({ onBack, onNext }) {
     <section className="page page-flow">
       <PageHeader
         icon={<CalendarIcon size={24} />}
-        breadcrumb="Emissão Online"
-        title="Autenticação"
+        breadcrumb={t('contato.breadcrumb')}
+        title={t('contato.title')}
         stepper={<Stepper total={5} current={2} />}
       />
 
       <div className="flow-body">
         <InfoBanner>
-          Preencha abaixo suas informações de contato e clique em Prosseguir para
-          receber o código de segurança <strong>no seu e-mail.</strong>
+          <span dangerouslySetInnerHTML={{__html: t('contato.info')}} />
         </InfoBanner>
 
         <label className="field">
           <span className="field-label">
-            E-mail<span className="required">*</span>
+            {t('contato.email')}<span className="required">*</span>
           </span>
           <input
             type="email"
             className="field-input"
-            placeholder="Digite seu e-mail..."
+            placeholder={t('contato.emailPlaceholder')}
             value={email}
             onChange={(e) => setEmail(e.target.value)}
           />
@@ -50,12 +51,12 @@ export default function AutenticacaoContato({ onBack, onNext }) {
 
         <label className="field">
           <span className="field-label">
-            Telefone celular<span className="required">*</span>
+            {t('contato.phone')}<span className="required">*</span>
           </span>
           <input
             type="tel"
             className="field-input"
-            placeholder="(00) 00000-0000"
+            placeholder={t('contato.phonePlaceholder')}
             value={phone}
             onChange={(e) => setPhone(formatPhone(e.target.value))}
           />

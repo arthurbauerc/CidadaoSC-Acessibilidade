@@ -3,6 +3,7 @@ import PageHeader from '../components/PageHeader'
 import InfoBanner from '../components/InfoBanner'
 import CaptchaMock from '../components/CaptchaMock'
 import { SearchIcon } from '../components/Icons'
+import { useLanguage } from '../i18n'
 
 function formatDate(v) {
   const d = v.replace(/\D/g, '').slice(0, 8)
@@ -13,6 +14,7 @@ function formatDate(v) {
 const PROTOCOLOS_VALIDOS = ['AGD-2026']
 
 export default function ConsultarAgendamento({ onBack, onNext }) {
+  const { t } = useLanguage()
   const [protocolo, setProtocolo] = useState('')
   const [nascimento, setNascimento] = useState('')
   const [robot, setRobot] = useState(false)
@@ -37,20 +39,19 @@ export default function ConsultarAgendamento({ onBack, onNext }) {
     <section className="page page-flow">
       <PageHeader
         icon={<SearchIcon size={22} />}
-        breadcrumb="Consultar ou cancelar"
-        title="Consultar agendamento"
+        breadcrumb={t('consultAg.breadcrumb')}
+        title={t('consultAg.title')}
       />
 
       <div className="flow-body">
         <div className="form-stack form-stack-wide">
           <InfoBanner>
-            Informe abaixo o número de protocolo e data de nascimento do requerente para
-            consultar as informações do agendamento.
+            {t('consultAg.info')}
           </InfoBanner>
 
           <label className="field">
             <span className="field-label">
-              Número de protocolo<span className="required">*</span>
+              {t('consultAg.protocolo')}<span className="required">*</span>
             </span>
             <input
               type="text"
@@ -62,13 +63,13 @@ export default function ConsultarAgendamento({ onBack, onNext }) {
               }}
             />
             {erro && (
-              <span className="field-error">Agendamento não encontrado ou indisponível</span>
+              <span className="field-error">{t('consultAg.erro')}</span>
             )}
           </label>
 
           <label className="field">
             <span className="field-label">
-              Data de nascimento<span className="required">*</span>
+              {t('consultAg.nascimento')}<span className="required">*</span>
             </span>
             <input
               type="text"
@@ -83,12 +84,12 @@ export default function ConsultarAgendamento({ onBack, onNext }) {
           <CaptchaMock checked={robot} onChange={setRobot} />
 
           {erro && (
-            <div className="alert-error">Agendamento não encontrado ou indisponível</div>
+            <div className="alert-error">{t('consultAg.erro')}</div>
           )}
 
           <div className="flow-actions-inline">
             <button type="button" className="btn-back" onClick={onBack}>
-              Voltar
+              {t('back')}
             </button>
             <button
               type="button"
@@ -96,7 +97,7 @@ export default function ConsultarAgendamento({ onBack, onNext }) {
               onClick={handleProsseguir}
               disabled={!valid}
             >
-              Prosseguir
+              {t('next')}
             </button>
           </div>
         </div>

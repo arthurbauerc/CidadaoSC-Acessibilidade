@@ -1,18 +1,21 @@
 import PageHeader from '../components/PageHeader'
 import { IdCardIcon } from '../components/Icons'
+import { useLanguage } from '../i18n'
 
 export default function ResultadoConsulta({
   onBack,
   onAgendamento,
-  titulo = 'Indisponível para Emissão Online',
-  detalhe = 'Sessão expirada',
+  titulo,
+  detalhe,
 }) {
+  const { t } = useLanguage()
+
   return (
     <section className="page page-flow">
       <PageHeader
         icon={<IdCardIcon size={24} />}
-        breadcrumb="Emissão Online"
-        title="Resultado da consulta"
+        breadcrumb={t('resultado.breadcrumb')}
+        title={t('resultado.title')}
       />
 
       <div className="flow-body">
@@ -24,26 +27,25 @@ export default function ResultadoConsulta({
             </svg>
           </span>
           <div className="result-error-text">
-            <strong>{titulo}</strong>
-            <span>{detalhe}</span>
+            <strong>{titulo || t('resultado.unavailable')}</strong>
+            <span>{detalhe || t('resultado.expired')}</span>
           </div>
         </div>
 
         <div className="info-banner result-info">
           <p>
-            Será necessário realizar um atendimento presencial, preferencialmente por
-            agendamento.
+            {t('resultado.needPresential')}
           </p>
           <p>
             <button type="button" className="link-inline" onClick={onAgendamento}>
-              Clique aqui
+              {t('resultado.clickHere')}
             </button>{' '}
-            para ser direcionado ao sistema de agendamento.
+            {t('resultado.redirectSchedule')}
           </p>
         </div>
 
         <button type="button" className="btn-back btn-block" onClick={onBack}>
-          Voltar
+          {t('back')}
         </button>
       </div>
     </section>

@@ -2,6 +2,7 @@ import { useState } from 'react'
 import PageHeader from '../components/PageHeader'
 import CaptchaMock from '../components/CaptchaMock'
 import { IdCardIcon } from '../components/Icons'
+import { useLanguage } from '../i18n'
 
 function formatCPF(value) {
   const digits = value.replace(/\D/g, '').slice(0, 11)
@@ -12,6 +13,7 @@ function formatCPF(value) {
 }
 
 export default function EmissaoCPF({ onBack, onNext, onForgotCPF }) {
+  const { t } = useLanguage()
   const [cpf, setCpf] = useState('')
   const [robot, setRobot] = useState(false)
 
@@ -21,18 +23,18 @@ export default function EmissaoCPF({ onBack, onNext, onForgotCPF }) {
     <section className="page page-flow">
       <PageHeader
         icon={<IdCardIcon size={24} />}
-        breadcrumb="Pedir nova identidade"
-        title="Autenticação"
+        breadcrumb={t('cpf.breadcrumb')}
+        title={t('cpf.title')}
       />
 
       <div className="flow-body">
         <div className="form-stack">
           <label className="field">
-            <span className="field-label">CPF</span>
+            <span className="field-label">{t('cpf.label')}</span>
             <input
               type="text"
               className="field-input"
-              placeholder="000.000.000-00"
+              placeholder={t('cpf.placeholder')}
               value={cpf}
               onChange={(e) => setCpf(formatCPF(e.target.value))}
               inputMode="numeric"
@@ -43,7 +45,7 @@ export default function EmissaoCPF({ onBack, onNext, onForgotCPF }) {
 
           <div className="flow-actions-inline">
             <button type="button" className="btn-back" onClick={onBack}>
-              Voltar
+              {t('back')}
             </button>
             <button
               type="button"
@@ -51,12 +53,12 @@ export default function EmissaoCPF({ onBack, onNext, onForgotCPF }) {
               onClick={() => onNext?.({ cpf })}
               disabled={!valid}
             >
-              Prosseguir
+              {t('next')}
             </button>
           </div>
 
           <button type="button" className="btn-forgot-cpf" onClick={onForgotCPF}>
-            Não lembro o meu CPF
+            {t('cpf.forgot')}
           </button>
         </div>
       </div>

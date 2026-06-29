@@ -21,6 +21,7 @@ import CancelarEmissao from './pages/CancelarEmissao'
 import SolicitacaoCancelada from './pages/SolicitacaoCancelada'
 import AgendamentoConfirmado from './pages/AgendamentoConfirmado'
 import CancelarAgendamento from './pages/CancelarAgendamento'
+import { useLanguage } from './i18n'
 
 const TABS = { CIN: 'cin', AGENDAMENTO: 'agendamento' }
 const VIEWS = {
@@ -49,17 +50,18 @@ const VIEWS = {
 }
 
 function Header({ activeTab, onChangeTab, onHome }) {
+  const { t } = useLanguage()
   return (
     <header className="site-header">
       <button
         type="button"
         className="header-logos"
         onClick={onHome}
-        aria-label="Ir para a página inicial"
-        title="Página inicial"
+        aria-label={t('header.home')}
+        title={t('header.homeTitle')}
       >
-        <img src="/images/logo_gov.png" alt="Governo de Santa Catarina" className="logo-gov" />
-        <img src="/images/logomarca-pci.png" alt="Polícia Científica de Santa Catarina" className="logo-pci" />
+        <img src="/images/logo_gov.png" alt={t('logo.gov')} className="logo-gov" />
+        <img src="/images/logomarca-pci.png" alt={t('logo.pci')} className="logo-pci" />
       </button>
 
       <nav className="site-nav">
@@ -68,7 +70,7 @@ function Header({ activeTab, onChangeTab, onHome }) {
           className={`nav-tab ${activeTab === TABS.CIN ? 'is-active' : ''}`}
           onClick={() => onChangeTab(TABS.CIN)}
         >
-          Carteira de Identidade Nacional
+          {t('nav.cin')}
         </button>
 
         <button
@@ -76,7 +78,7 @@ function Header({ activeTab, onChangeTab, onHome }) {
           className={`nav-tab ${activeTab === TABS.AGENDAMENTO ? 'is-active' : ''}`}
           onClick={() => onChangeTab(TABS.AGENDAMENTO)}
         >
-          Agendamento presencial
+          {t('nav.agendamento')}
         </button>
 
         <img src="/images/griaule.svg" alt="Griaule" className="nav-brand" />
@@ -98,6 +100,7 @@ function ActionCard({ icon, title, description, onClick }) {
 }
 
 function Modal({ title, children, onClose }) {
+  const { t } = useLanguage()
   return (
     <div className="modal-overlay" role="dialog" aria-modal="true" aria-labelledby="modal-title">
       <div className="modal">
@@ -105,7 +108,7 @@ function Modal({ title, children, onClose }) {
         <div className="modal-body">{children}</div>
         <div className="modal-footer">
           <button type="button" className="btn-primary" onClick={onClose}>
-            Fechar
+            {t('close')}
           </button>
         </div>
       </div>
@@ -114,6 +117,7 @@ function Modal({ title, children, onClose }) {
 }
 
 function EmissaoHome({ onStart }) {
+  const { t } = useLanguage()
   const [declarado, setDeclarado] = useState(false)
   const [modalOpen, setModalOpen] = useState(false)
 
@@ -127,19 +131,9 @@ function EmissaoHome({ onStart }) {
 
   return (
     <section className="page">
-      <h1>Emissão Online</h1>
-      <p>
-        A <strong>Emissão Online da Carteira de Identidade Nacional (CIN)</strong> está
-        disponível para todos os usuários que tenham emitido o documento em Santa
-        Catarina (a partir de 08/03/2023) e que, na data do pedido online,{' '}
-        <strong>tenham 16 anos ou mais</strong>.
-      </p>
-      <p>
-        O documento será produzido com base nas{' '}
-        <strong>informações da última solicitação presencial realizada</strong> e,
-        posteriormente, encaminhado para a{' '}
-        <strong>unidade de atendimento escolhida</strong> pelo usuário, para retirada.
-      </p>
+      <h1>{t('emissao.title')}</h1>
+      <p dangerouslySetInnerHTML={{ __html: t('emissao.p1') }} />
+      <p dangerouslySetInnerHTML={{ __html: t('emissao.p2') }} />
 
       <label className="checkbox">
         <input
@@ -147,28 +141,27 @@ function EmissaoHome({ onStart }) {
           checked={declarado}
           onChange={(e) => setDeclarado(e.target.checked)}
         />
-        <span>Declaro que tenho 16 anos ou mais.</span>
+        <span>{t('emissao.checkbox')}</span>
       </label>
 
       <div className="card-grid">
         <ActionCard
           icon={<IdCardIcon />}
-          title="Emissão Online"
-          description="Peça sua nova Carteira de Identidade Nacional (CIN)"
+          title={t('emissao.card.title')}
+          description={t('emissao.card.desc')}
           onClick={() => handleAction('emissao')}
         />
         <ActionCard
           icon={<SearchIcon />}
-          title="Consultar pedido"
-          description="Veja como está o andamento do seu pedido de identidade"
+          title={t('emissao.consultar.title')}
+          description={t('emissao.consultar.desc')}
           onClick={() => handleAction('consultar')}
         />
       </div>
 
       {modalOpen && (
-        <Modal title="Atenção" onClose={() => setModalOpen(false)}>
-          Por favor, você deve declarar que é maior de 16 anos para continuar com o
-          processo de emissão de identidade.
+        <Modal title={t('emissao.modal.title')} onClose={() => setModalOpen(false)}>
+          {t('emissao.modal.body')}
         </Modal>
       )}
     </section>
@@ -176,21 +169,22 @@ function EmissaoHome({ onStart }) {
 }
 
 function AgendamentoPage({ onNovoAgendamento, onConsultar }) {
+  const { t } = useLanguage()
   return (
     <section className="page">
-      <h1>Agendamentos</h1>
+      <h1>{t('ag.title')}</h1>
 
       <div className="card-grid">
         <ActionCard
           icon={<CalendarIcon />}
-          title="Novo agendamento presencial"
-          description="Agende um atendimento para emissão da Carteira Nacional de Identidade (CIN)."
+          title={t('ag.novo.title')}
+          description={t('ag.novo.desc')}
           onClick={onNovoAgendamento}
         />
         <ActionCard
           icon={<SearchIcon />}
-          title="Consultar ou cancelar"
-          description="Consulte seu local de agendamento ou cancele o seu horário."
+          title={t('ag.consultar.title')}
+          description={t('ag.consultar.desc')}
           onClick={onConsultar}
         />
       </div>
@@ -199,6 +193,7 @@ function AgendamentoPage({ onNovoAgendamento, onConsultar }) {
 }
 
 function App() {
+  const { lang } = useLanguage()
   const [activeTab, setActiveTab] = useState(TABS.CIN)
   const [view, setView] = useState(VIEWS.HOME)
   const [agData, setAgData] = useState({ posto: null, requerente: null })
@@ -414,7 +409,7 @@ function App() {
         />
         <main className="main">{renderView()}</main>
       </div>
-      <VLibrasWidget />
+      {lang === 'pt-BR' && <VLibrasWidget />}
     </>
   )
 }

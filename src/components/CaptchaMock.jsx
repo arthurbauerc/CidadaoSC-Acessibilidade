@@ -1,9 +1,12 @@
+import { useLanguage } from '../i18n'
+
 export default function CaptchaMock({ checked, onChange }) {
+  const { t } = useLanguage()
   return (
     <div className="captcha-mock">
       <label className="captcha-row">
         <input type="checkbox" checked={checked} onChange={(e) => onChange(e.target.checked)} />
-        <span>Não sou um robô</span>
+        <span>{t('captcha.notRobot')}</span>
         <span className="captcha-brand">
           <span className="captcha-brand-icon" aria-hidden>
             <svg viewBox="0 0 24 24" width="28" height="28">
@@ -14,12 +17,12 @@ export default function CaptchaMock({ checked, onChange }) {
           </span>
           <span className="captcha-brand-text">
             <strong>reCAPTCHA</strong>
-            <small>Privacidade · Termos</small>
+            <small>{t('captcha.privacy')}</small>
           </span>
         </span>
       </label>
       <p className="captcha-quota">
-        Este site está excedendo <a href="#">a cota gratuita</a> do reCAPTCHA Enterprise.
+        {t('captcha.quota')} <a href="#">{t('captcha.quotaLink')}</a> {t('captcha.quotaSuffix')}
       </p>
     </div>
   )

@@ -3,6 +3,7 @@ import PageHeader from '../components/PageHeader'
 import InfoBanner from '../components/InfoBanner'
 import CaptchaMock from '../components/CaptchaMock'
 import { IdCardIcon } from '../components/Icons'
+import { useLanguage } from '../i18n'
 
 function formatDate(v) {
   const d = v.replace(/\D/g, '').slice(0, 8)
@@ -12,6 +13,7 @@ function formatDate(v) {
 }
 
 export default function RecuperarCPF({ onBack, onNext }) {
+  const { t } = useLanguage()
   const [nome, setNome] = useState('')
   const [nascimento, setNascimento] = useState('')
   const [mae, setMae] = useState('')
@@ -27,25 +29,24 @@ export default function RecuperarCPF({ onBack, onNext }) {
     <section className="page page-flow">
       <PageHeader
         icon={<IdCardIcon size={24} />}
-        breadcrumb="Emissão Online"
-        title="Autenticação"
+        breadcrumb={t('recuperar.breadcrumb')}
+        title={t('recuperar.title')}
       />
 
       <div className="flow-body">
         <div className="form-stack form-stack-wide">
           <InfoBanner>
-            Digite seus dados pessoais para verificar se você pode solicitar a
-            reimpressão de sua Carteira de Identidade Nacional.
+            {t('recuperar.info')}
           </InfoBanner>
 
           <label className="field">
             <span className="field-label">
-              Nome completo<span className="required">*</span>
+              {t('recuperar.nome')}<span className="required">*</span>
             </span>
             <input
               type="text"
               className="field-input"
-              placeholder="Nome completo"
+              placeholder={t('recuperar.nomePlaceholder')}
               value={nome}
               onChange={(e) => setNome(e.target.value)}
             />
@@ -53,12 +54,12 @@ export default function RecuperarCPF({ onBack, onNext }) {
 
           <label className="field">
             <span className="field-label">
-              Data de nascimento<span className="required">*</span>
+              {t('recuperar.nascimento')}<span className="required">*</span>
             </span>
             <input
               type="text"
               className="field-input"
-              placeholder="DD/MM/AAAA"
+              placeholder={t('recuperar.nascimentoPlaceholder')}
               value={nascimento}
               onChange={(e) => setNascimento(formatDate(e.target.value))}
               inputMode="numeric"
@@ -67,12 +68,12 @@ export default function RecuperarCPF({ onBack, onNext }) {
 
           <label className="field">
             <span className="field-label">
-              Nome da mãe completo<span className="required">*</span>
+              {t('recuperar.mae')}<span className="required">*</span>
             </span>
             <input
               type="text"
               className="field-input"
-              placeholder="Nome da mãe completo"
+              placeholder={t('recuperar.maePlaceholder')}
               value={mae}
               onChange={(e) => setMae(e.target.value)}
             />
@@ -82,7 +83,7 @@ export default function RecuperarCPF({ onBack, onNext }) {
 
           <div className="flow-actions-inline">
             <button type="button" className="btn-back" onClick={onBack}>
-              Voltar
+              {t('back')}
             </button>
             <button
               type="button"
@@ -90,7 +91,7 @@ export default function RecuperarCPF({ onBack, onNext }) {
               onClick={() => onNext?.({ nome, nascimento, mae })}
               disabled={!valid}
             >
-              Prosseguir
+              {t('next')}
             </button>
           </div>
         </div>

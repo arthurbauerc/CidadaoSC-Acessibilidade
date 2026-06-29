@@ -4,8 +4,10 @@ import Stepper from '../components/Stepper'
 import Footer from '../components/Footer'
 import InfoBanner from '../components/InfoBanner'
 import { IdCardIcon, CheckCircleIcon } from '../components/Icons'
+import { useLanguage } from '../i18n'
 
 export default function AutenticacaoAgendamento({ onBack, onNext }) {
+  const { t } = useLanguage()
   const [code, setCode] = useState('')
   const [validado, setValidado] = useState(false)
   const [seconds, setSeconds] = useState(60)
@@ -23,16 +25,16 @@ export default function AutenticacaoAgendamento({ onBack, onNext }) {
       <section className="page page-flow">
         <PageHeader
           icon={<IdCardIcon size={24} />}
-          breadcrumb="Novo agendamento"
-          title="Autenticação"
+          breadcrumb={t('authAg.breadcrumb')}
+          title={t('authAg.title')}
           stepper={<Stepper total={5} current={4} />}
         />
         <div className="flow-body">
           <div className="validado-box">
             <CheckCircleIcon size={56} />
             <div>
-              <strong>Código de segurança validado!</strong>
-              <span>Você já pode prosseguir.</span>
+              <strong>{t('authAg.validated')}</strong>
+              <span>{t('authAg.canProceed')}</span>
             </div>
           </div>
           <Footer onBack={() => setValidado(false)} onNext={onNext} />
@@ -45,25 +47,24 @@ export default function AutenticacaoAgendamento({ onBack, onNext }) {
     <section className="page page-flow">
       <PageHeader
         icon={<IdCardIcon size={24} />}
-        breadcrumb="Novo agendamento"
-        title="Autenticação"
+        breadcrumb={t('authAg.breadcrumb')}
+        title={t('authAg.title')}
         stepper={<Stepper total={5} current={4} />}
       />
 
       <div className="flow-body">
         <InfoBanner>
-          Enviamos um código de segurança para seu e-mail. Verifique sua caixa de entrada
-          e também a pasta de spam.
+          {t('authAg.info')}
         </InfoBanner>
 
         <label className="field">
           <span className="field-label">
-            Código de segurança<span className="required">*</span>
+            {t('authAg.codeLabel')}<span className="required">*</span>
           </span>
           <input
             type="text"
             className="field-input"
-            placeholder="Digite o código de segurança..."
+            placeholder={t('authAg.codePlaceholder')}
             value={code}
             onChange={(e) => setCode(e.target.value)}
           />
@@ -75,17 +76,17 @@ export default function AutenticacaoAgendamento({ onBack, onNext }) {
           onClick={() => setValidado(true)}
           disabled={code.trim().length === 0}
         >
-          Verificar
+          {t('authAg.verify')}
         </button>
 
-        <p className="resend-label">Não recebeu seu código? Solicite o reenvio abaixo.</p>
+        <p className="resend-label">{t('authAg.resendNote')}</p>
         <button
           type="button"
           className="btn-resend"
           disabled={!canResend}
           onClick={() => setSeconds(60)}
         >
-          {canResend ? 'Reenviar por e-mail' : `Reenviar por e-mail (${seconds}s)`}
+          {canResend ? t('authAg.resend') : `${t('authAg.resend')} (${seconds}s)`}
         </button>
       </div>
 
