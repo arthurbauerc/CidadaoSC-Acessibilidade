@@ -7,8 +7,8 @@ import { useLanguage } from '../i18n'
 
 function Linha({ label, value }) {
   return (
-    <div className="conf-linha">
-      <span className="conf-label">{label}</span>
+    <div className="conf-linha" tabIndex="0">
+      <span className="conf-label">{label}<span style={{ opacity: 0, position: 'absolute' }}>: </span></span>
       <span className="conf-value">{value}</span>
     </div>
   )
@@ -42,10 +42,10 @@ export default function Confirmacao({ requerente, posto, onBack, onNext }) {
             <div className="conf-card-head"><h3>{t('conf.local')}</h3></div>
             <Linha label={t('conf.postoRetirada')} value={`PCI - ${(p.nome || '').toUpperCase()}`} />
             <Linha label={t('conf.endereco')} value={p.enderecoCompleto || p.endereco} />
-            <div className="conf-linha">
-              <span className="conf-label">{t('conf.horario')}</span>
+            <div className="conf-linha" tabIndex="0">
+              <span className="conf-label">{t('conf.horario')}<span style={{ opacity: 0, position: 'absolute' }}>: </span></span>
               <span className="conf-value">{t('conf.weekdays')}</span>
-              <span className="chip chip-muted"><ClockIcon size={14} />{p.horarioChip}</span>
+              <span className="chip chip-muted" style={{ marginTop: '4px' }}><ClockIcon size={14} />{p.horarioChip}</span>
             </div>
             <Linha label={t('conf.email')} value={p.email} />
             <Linha label={t('conf.telefoneField')} value={p.telefone} />
