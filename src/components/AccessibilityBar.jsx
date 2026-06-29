@@ -33,7 +33,7 @@ function loadSettings() {
 
 // Elementos que valem a pena anunciar (resolvemos o hover/foco até o mais próximo).
 const READ_SELECTOR =
-  'button, a, [role="button"], [role="dialog"], input, select, textarea, label, img, h1, h2, h3, h4, p, li, summary'
+  'button, a, [role="button"], [role="dialog"], [role="note"], [role="status"], [role="alert"], input, select, textarea, label, img, h1, h2, h3, h4, h5, p, li, summary, .info-banner, .field-label, .field-hint, .resumo-label, .resumo-value, .chip, .posto-card-name, .posto-card-address, .page-header-breadcrumb'
 
 function resolveReadable(target) {
   if (!(target instanceof Element)) return null
@@ -120,7 +120,7 @@ function describeElement(el, t) {
   if (!name) return ''
   const role = roleWord(el, t)
   const prefix = role ? `${role}, ` : ''
-  return `${prefix}${name}${stateSuffix(el, t)}`.slice(0, 280)
+  return `${prefix}${name}${stateSuffix(el, t)}`.slice(0, 400)
 }
 
 function speakText(text, langCode) {
@@ -435,19 +435,25 @@ export default function AccessibilityBar() {
           <div className="a11y-controls">
             <button
               type="button"
-              className="a11y-btn"
+              className="a11y-action"
               aria-expanded={advanced}
               aria-label={advanced ? t('a11y.collapse') : t('a11y.expand')}
-              title={t('a11y.moreOptions')}
               onClick={() => setAdvanced((a) => !a)}
             >
-              <span className={`a11y-chev ${advanced ? 'is-up' : ''}`} aria-hidden="true">{I.chevronDown}</span>
+              <span className="a11y-action-icon" aria-hidden="true">
+                <span className={`a11y-chev ${advanced ? 'is-up' : ''}`}>{I.chevronDown}</span>
+              </span>
+              {t('a11y.moreOptions')}
             </button>
-            <button type="button" className="a11y-btn" aria-label={t('a11y.reset')} title={t('a11y.resetTitle')} onClick={reset}>
-              {I.power}
+            <button type="button" className="a11y-action" aria-label={t('a11y.reset')} onClick={reset}>
+              <span className="a11y-action-icon" aria-hidden="true">{I.reset}</span>
+              {t('a11y.resetBtn')}
             </button>
-            <button type="button" className="a11y-btn" aria-label={t('a11y.closePanel')} title={t('a11y.closePanelTitle')} onClick={closePanel}>
-              {I.minimize}
+            <button type="button" className="a11y-action" aria-label={t('a11y.closePanel')} onClick={closePanel}>
+              <span className="a11y-action-icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" d="M6 6l12 12M18 6 6 18" /></svg>
+              </span>
+              {t('a11y.closePanelBtn')}
             </button>
           </div>
         </div>
@@ -503,15 +509,7 @@ export default function AccessibilityBar() {
             </div>
           </div>
 
-          {/* AÇÕES */}
-          <div className="a11y-group a11y-group-actions">
-            <button type="button" className="a11y-action" onClick={reset}>
-              <span className="a11y-action-icon" aria-hidden="true">{I.reset}</span>{t('a11y.resetBtn')}
-            </button>
-            <button type="button" className="a11y-action" onClick={closePanel}>
-              <span className="a11y-action-icon" aria-hidden="true">{I.chevronUp}</span>{t('a11y.closePanelBtn')}
-            </button>
-          </div>
+
         </div>
       )}
     </section>

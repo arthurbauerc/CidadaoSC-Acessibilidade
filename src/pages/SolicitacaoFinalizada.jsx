@@ -97,7 +97,7 @@ export default function SolicitacaoFinalizada({ onHome, onCancelar, onAgendament
         icon={<CalendarIcon size={24} />}
         breadcrumb={t('final.breadcrumb')}
         title={t('final.title')}
-        stepper={<Stepper total={5} current={6} />}
+        stepper={<Stepper total={5} current={5} />}
       />
 
       <div className="flow-body">

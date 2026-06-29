@@ -105,7 +105,7 @@ function Modal({ title, children, onClose }) {
     <div className="modal-overlay" role="dialog" aria-modal="true" aria-labelledby="modal-title">
       <div className="modal">
         <h2 id="modal-title">{title}</h2>
-        <div className="modal-body">{children}</div>
+        <div role="note" className="modal-body">{children}</div>
         <div className="modal-footer">
           <button type="button" className="btn-primary" onClick={onClose}>
             {t('close')}
