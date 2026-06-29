@@ -9,7 +9,7 @@
   --color-link: #2f6cff;
 
   font-family: 'Segoe UI', system-ui, -apple-system, 'Helvetica Neue', Arial, sans-serif;
-  font-size: 16px;
+  font-size: 1rem;
   color: var(--color-text);
   background-color: var(--color-bg);
   -webkit-font-smoothing: antialiased;

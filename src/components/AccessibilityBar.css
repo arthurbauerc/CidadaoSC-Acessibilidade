@@ -84,7 +84,7 @@
   display: inline-flex;
   align-items: center;
   gap: 6px;
-  font-size: 13px;
+  font-size: 0.8125rem;
   font-weight: 700;
   letter-spacing: 0.04em;
   text-transform: uppercase;
@@ -114,7 +114,7 @@
   border-radius: 6px;
   background: #ffffff;
   color: #1a1a1a;
-  font-size: 18px;
+  font-size: 1.125rem;
   font-weight: 700;
   display: inline-flex;
   align-items: center;
@@ -137,7 +137,7 @@
   border-radius: 6px;
   background: #ffffff;
   color: #1a1a1a;
-  font-size: 14px;
+  font-size: 0.875rem;
   font-weight: 600;
   display: inline-flex;
   align-items: center;
@@ -159,7 +159,7 @@
   height: 38px;
   border-radius: 6px;
   border: 1px solid #b9b9b9;
-  font-size: 18px;
+  font-size: 1.125rem;
   font-weight: 800;
   cursor: pointer;
 }
@@ -187,7 +187,7 @@
   border-radius: 6px;
   background: #ffffff;
   color: #1a1a1a;
-  font-size: 14px;
+  font-size: 0.875rem;
   font-weight: 600;
   display: inline-flex;
   align-items: center;
@@ -248,6 +248,136 @@ html.a11y-theme-sepia .app {
   color: var(--color-text);
 }
 
+/* ====================================================================
+   TEMA ESCURO — overrides de cores fixas
+   ==================================================================== */
+
+/* Fundo geral */
+html.a11y-theme-dark .app { background-color: var(--color-bg); }
+
+/* Header / Nav */
+html.a11y-theme-dark .app .site-header { background-color: var(--color-surface); }
+html.a11y-theme-dark .app .nav-tab { color: var(--color-link, var(--color-green)); }
+html.a11y-theme-dark .app .nav-tab.is-active { background-color: var(--color-green); color: #ffffff; }
+
+/* Info banner */
+html.a11y-theme-dark .app .info-banner { background-color: #1e2530; color: var(--color-text); }
+html.a11y-theme-dark .app .info-banner-blue { background-color: #162035; }
+
+/* Campos de formulário */
+html.a11y-theme-dark .app .field-input {
+  background-color: #23272f;
+  border-color: var(--color-border);
+  color: var(--color-text);
+}
+html.a11y-theme-dark .app .field-input::placeholder { color: #666d7a; }
+html.a11y-theme-dark .app .picker-input { background-color: #23272f; }
+html.a11y-theme-dark .app .picker-placeholder { color: #666d7a; }
+html.a11y-theme-dark .app .picker-icon { color: #888; }
+
+/* Listas de cidades/postos */
+html.a11y-theme-dark .app .cidade-row { border-bottom-color: var(--color-border); }
+html.a11y-theme-dark .app .cidade-row:hover { background-color: #1e2530; }
+
+/* Footer fixo */
+html.a11y-theme-dark .app .flow-footer { background-color: var(--color-surface); }
+html.a11y-theme-dark .app .flow-footer-hint { background-color: var(--color-surface); }
+
+/* Modal */
+html.a11y-theme-dark .app .modal { background-color: var(--color-surface); }
+html.a11y-theme-dark .app .modal-body {
+  background-color: #23272f;
+  color: var(--color-text);
+}
+html.a11y-theme-dark .app .modal-overlay { background-color: rgba(0,0,0,0.6); }
+
+/* Cards de resumo */
+html.a11y-theme-dark .app .resumo-wrap { background-color: #1b1e24; }
+html.a11y-theme-dark .app .resumo-card { background-color: var(--color-surface); }
+html.a11y-theme-dark .app .resumo-value { color: var(--color-text-muted); }
+html.a11y-theme-dark .app .resumo-obs { color: var(--color-text-muted); }
+
+/* Chips */
+html.a11y-theme-dark .app .chip { background-color: #23272f; color: var(--color-text-muted); }
+html.a11y-theme-dark .app .chip-muted { color: var(--color-text-muted); }
+
+/* Agendamento — cartões */
+html.a11y-theme-dark .app .ag-card { background-color: #1b1e24; }
+html.a11y-theme-dark .app .requerente-card { background-color: var(--color-surface); }
+html.a11y-theme-dark .app .btn-add-req { background-color: var(--color-surface); color: var(--color-text); }
+html.a11y-theme-dark .app .btn-add-req:hover:not(:disabled) { background-color: #23272f; }
+html.a11y-theme-dark .app .req-index,
+html.a11y-theme-dark .app .optional { color: var(--color-text-muted); }
+
+/* Captcha */
+html.a11y-theme-dark .app .captcha-mock { background-color: #23272f; border-color: var(--color-border); }
+
+/* Calendário */
+html.a11y-theme-dark .app .cal-arrow { background-color: #1e2d24; }
+html.a11y-theme-dark .app .cal-arrow:hover { background-color: #243626; }
+html.a11y-theme-dark .app .cal-weekdays span { color: var(--color-text-muted); }
+html.a11y-theme-dark .app .cal-cell.is-disabled { background-color: #1e2025; color: #444; }
+html.a11y-theme-dark .app .cal-cell.is-available:hover { background-color: #1e2d24; }
+
+/* Horários */
+html.a11y-theme-dark .app .time-slot { background-color: #23272f; border-color: var(--color-border); color: var(--color-text); }
+html.a11y-theme-dark .app .time-slot.is-selected { background-color: var(--color-green); color: #ffffff; border-color: var(--color-green); }
+html.a11y-theme-dark .app .modal-close { color: var(--color-text-muted); }
+
+/* Resultado de consulta */
+html.a11y-theme-dark .app .result-error { background-color: #2a1a1a; }
+html.a11y-theme-dark .app .result-error-text strong { color: #f08080; }
+html.a11y-theme-dark .app .result-error-text span { color: var(--color-text-muted); }
+html.a11y-theme-dark .app .alert-error { background-color: #2a1a1a; color: #f08080; }
+
+/* Botão reenviar código (inativo) */
+html.a11y-theme-dark .app .btn-resend:disabled { background-color: #2a2d33; color: #555; }
+
+/* Botão esqueci CPF */
+html.a11y-theme-dark .app .btn-forgot-cpf:hover { background-color: #2a1a1a; }
+
+/* Stepper */
+html.a11y-theme-dark .app .stepper-item { background-color: #2a2d33; }
+html.a11y-theme-dark .app .stepper-label { color: var(--color-text-muted); }
+
+/* Ações inline (botão Voltar não fixo) */
+html.a11y-theme-dark .app .flow-actions-inline .btn-back { background-color: #3a3f47; }
+
+/* Tipo de emissão */
+html.a11y-theme-dark .app .tipo-card-body { background-color: #23272f; color: var(--color-text); }
+
+/* Confirmação */
+html.a11y-theme-dark .app .conf-wrap { background-color: #1b1e24; }
+html.a11y-theme-dark .app .conf-card { background-color: var(--color-surface); }
+html.a11y-theme-dark .app .conf-card-head h3 { color: var(--color-text); }
+html.a11y-theme-dark .app .conf-value { color: var(--color-text-muted); }
+
+/* Stepper — cores distintas e visíveis */
+html.a11y-theme-dark .app .stepper-item          { background-color: #3a3f47; }
+html.a11y-theme-dark .app .stepper-item.is-done  { background-color: var(--color-green); }
+html.a11y-theme-dark .app .stepper-item.is-active { background-color: #f0b429; }
+
+/* Passo 5 — Status timeline (Pedido recebido / Pagamento da taxa) */
+html.a11y-theme-dark .app .status-head { background-color: var(--color-surface); color: var(--color-text); }
+html.a11y-theme-dark .app .status-head:hover { background-color: #23272f; }
+html.a11y-theme-dark .app .status-body { background-color: var(--color-surface); }
+html.a11y-theme-dark .app .status-row:not(:last-child) .status-rail::after { background-color: var(--color-border); }
+html.a11y-theme-dark .app .status-icon.tone-loading { border-color: var(--color-border); color: var(--color-text-muted); }
+html.a11y-theme-dark .app .status-icon { background-color: var(--color-bg); }
+
+/* Modal de cancelamento */
+html.a11y-theme-dark .app .modal-cancel { background-color: var(--color-surface); }
+html.a11y-theme-dark .app .alert-warn { background-color: #2a2310; color: #d4a72c; }
+html.a11y-theme-dark .app .opt-card { background-color: var(--color-surface); }
+html.a11y-theme-dark .app .opt-card:hover { background-color: #23272f; box-shadow: none; }
+html.a11y-theme-dark .app .email-box { background-color: var(--color-surface); }
+
+/* Botões extras */
+html.a11y-theme-dark .app .btn-cancel-outline { background-color: var(--color-surface); }
+html.a11y-theme-dark .app .btn-cancel-outline:hover { background-color: #2a1a1a; }
+html.a11y-theme-dark .app .btn-outline-block { background-color: var(--color-surface); color: var(--color-text); }
+
+
 /* alto contraste reforçado: verde sobre preto em tudo */
 html.a11y-theme-contrast .app,
 html.a11y-theme-contrast .app *:not(svg):not(path):not(circle):not(rect):not(use) {
@@ -256,6 +386,62 @@ html.a11y-theme-contrast .app *:not(svg):not(path):not(circle):not(rect):not(use
   border-color: #00e676 !important;
 }
 html.a11y-theme-contrast .app img { filter: contrast(1.1); }
+
+/* --- Alto contraste: stepper sempre visível --- */
+html.a11y-theme-contrast .app .stepper-item {
+  background-color: #000000 !important;
+  border: 2px solid #00e676 !important;
+  border-radius: 4px !important;
+}
+html.a11y-theme-contrast .app .stepper-item.is-done {
+  background-color: #00e676 !important;
+  border-color: #00e676 !important;
+}
+html.a11y-theme-contrast .app .stepper-item.is-active {
+  background-color: #ffeb3b !important;
+  border-color: #ffeb3b !important;
+}
+html.a11y-theme-contrast .app .stepper-label {
+  color: #00e676 !important;
+}
+
+/* --- Alto contraste: botões com contorno explícito (exceto logos do cabeçalho) --- */
+html.a11y-theme-contrast .app button:not(.header-logos),
+html.a11y-theme-contrast .app [role="button"]:not(.header-logos) {
+  border: 2px solid #00e676 !important;
+  outline-offset: 2px !important;
+}
+html.a11y-theme-contrast .app .header-logos,
+html.a11y-theme-contrast .app .site-nav {
+  border: none !important;
+}
+html.a11y-theme-contrast .app button:not(.header-logos):hover,
+html.a11y-theme-contrast .app [role="button"]:not(.header-logos):hover {
+  background-color: #00e676 !important;
+  color: #000000 !important;
+}
+html.a11y-theme-contrast .app button:focus-visible,
+html.a11y-theme-contrast .app [role="button"]:focus-visible {
+  outline: 3px solid #ffeb3b !important;
+}
+
+/* --- Alto contraste: horários disponíveis e selecionado --- */
+html.a11y-theme-contrast .app .time-slot {
+  border: 2px solid #00e676 !important;
+  background-color: #000000 !important;
+  color: #00e676 !important;
+}
+html.a11y-theme-contrast .app .time-slot:hover {
+  background-color: #003300 !important;
+  border-color: #00e676 !important;
+}
+html.a11y-theme-contrast .app .time-slot.is-selected {
+  background-color: #00e676 !important;
+  color: #000000 !important;
+  border-color: #00e676 !important;
+  outline: 3px solid #ffeb3b !important;
+  outline-offset: 2px !important;
+}
 
 /* --- Altura da linha --- */
 html.a11y-line-media .app :where(p, li, span, label, a, h1, h2, h3, h4, td, div) {

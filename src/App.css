@@ -3,6 +3,19 @@
   background-color: var(--color-bg);
 }
 
+/* ---------- UTILITÁRIOS ---------- */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
+}
+
 /* ---------- HEADER ---------- */
 .site-header {
   background-color: var(--color-surface);
@@ -46,7 +59,7 @@
   background: transparent;
   border: none;
   padding: 14px 22px;
-  font-size: 14px;
+  font-size: 0.875rem;
   font-weight: 600;
   color: var(--color-link);
   white-space: nowrap;
@@ -79,14 +92,14 @@
 }
 
 .page h1 {
-  font-size: 28px;
+  font-size: 1.75rem;
   font-weight: 700;
   color: var(--color-text);
   margin: 0 0 6px;
 }
 
 .page p {
-  font-size: 15px;
+  font-size: 0.9375rem;
   line-height: 1.6;
   color: var(--color-text);
   margin: 0;
@@ -98,7 +111,7 @@
   display: inline-flex;
   align-items: center;
   gap: 10px;
-  font-size: 14px;
+  font-size: 0.875rem;
   color: var(--color-text);
   margin-top: 8px;
   cursor: pointer;
@@ -150,14 +163,14 @@
 }
 
 .action-card h3 {
-  font-size: 16px;
+  font-size: 1rem;
   font-weight: 700;
   color: var(--color-text);
   margin: 0;
 }
 
 .action-card p {
-  font-size: 14px;
+  font-size: 0.875rem;
   color: var(--color-text-muted);
   line-height: 1.5;
   margin: 0;
@@ -185,7 +198,7 @@
 }
 
 .modal h2 {
-  font-size: 18px;
+  font-size: 1.125rem;
   font-weight: 700;
   margin: 0;
   padding: 18px 22px 12px;
@@ -194,7 +207,7 @@
 
 .modal-body {
   padding: 0 22px 18px;
-  font-size: 14px;
+  font-size: 0.875rem;
   line-height: 1.55;
   color: var(--color-text);
   background-color: #f3f3f3;
@@ -216,7 +229,7 @@
   border: none;
   border-radius: 4px;
   padding: 8px 22px;
-  font-size: 14px;
+  font-size: 0.875rem;
   font-weight: 600;
 }
 
@@ -264,13 +277,13 @@
 }
 
 .page-header-breadcrumb {
-  font-size: 14px;
+  font-size: 0.875rem;
   color: var(--color-text-muted);
   line-height: 1.2;
 }
 
 .page-header-text h1 {
-  font-size: 22px;
+  font-size: 1.375rem;
   font-weight: 700;
   color: var(--color-text);
   margin: 0;
@@ -278,6 +291,21 @@
 }
 
 /* ---------- STEPPER ---------- */
+.stepper-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 6px;
+}
+
+.stepper-label {
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: var(--color-text-muted, #666);
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+}
+
 .stepper {
   list-style: none;
   display: flex;
@@ -301,6 +329,7 @@
   background-color: #e8a51a;
 }
 
+
 /* ---------- FLOW BODY / FORMS ---------- */
 .flow-body {
   display: flex;
@@ -314,7 +343,7 @@
 .info-banner {
   background-color: #eef0f3;
   color: var(--color-text);
-  font-size: 14px;
+  font-size: 0.875rem;
   padding: 12px 18px;
   border-radius: 4px;
   line-height: 1.55;
@@ -333,7 +362,7 @@
 }
 
 .field-label {
-  font-size: 14px;
+  font-size: 0.875rem;
   font-weight: 600;
   color: var(--color-text);
 }
@@ -347,7 +376,7 @@
   border: 1px solid #d0d0d0;
   border-radius: 4px;
   padding: 10px 14px;
-  font-size: 14px;
+  font-size: 0.875rem;
   font-family: inherit;
   color: var(--color-text);
   background-color: #ffffff;
@@ -383,7 +412,7 @@
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  font-size: 14px;
+  font-size: 0.875rem;
   cursor: pointer;
 }
 
@@ -402,7 +431,7 @@
 
 .cidades-title,
 .postos-title {
-  font-size: 16px;
+  font-size: 1rem;
   font-weight: 700;
   color: var(--color-text);
   margin: 8px 0 4px;
@@ -423,7 +452,7 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  font-size: 14px;
+  font-size: 0.875rem;
   color: var(--color-text);
   cursor: pointer;
 }
@@ -445,7 +474,7 @@
 
 .cidade-row-right {
   color: var(--color-text-muted);
-  font-size: 13px;
+  font-size: 0.8125rem;
 }
 
 /* card de posto selecionado */
@@ -473,7 +502,7 @@
   display: flex;
   align-items: center;
   gap: 10px;
-  font-size: 15px;
+  font-size: 0.9375rem;
 }
 
 .posto-icon {
@@ -503,7 +532,7 @@
   display: flex;
   align-items: flex-start;
   gap: 8px;
-  font-size: 13px;
+  font-size: 0.8125rem;
   line-height: 1.45;
 }
 
@@ -514,18 +543,33 @@
   left: 0;
   right: 0;
   display: flex;
-  gap: 0;
+  flex-direction: column;
   background-color: #ffffff;
   border-top: 1px solid var(--color-border);
   z-index: 10;
+}
+
+.flow-footer-hint {
+  display: block;
+  text-align: center;
+  font-size: 0.875rem;
+  font-weight: 700;
+  color: var(--color-green);
+  padding: 8px 16px;
+  background-color: #ffffff;
+  line-height: 1.3;
+}
+
+.flow-footer-btns {
+  display: flex;
 }
 
 .btn-back,
 .btn-next {
   flex: 1 1 0;
   border: none;
-  padding: 18px 0;
-  font-size: 15px;
+  padding: 14px 0;
+  font-size: 0.9375rem;
   font-weight: 700;
   color: #ffffff;
   cursor: pointer;
@@ -552,6 +596,7 @@
   opacity: 0.55;
   cursor: not-allowed;
 }
+
 
 /* inline (CPF screen — botões não fixos) */
 .flow-actions-inline {
@@ -603,12 +648,12 @@
 
 .result-error-text strong {
   color: #c0392b;
-  font-size: 15px;
+  font-size: 0.9375rem;
 }
 
 .result-error-text span {
   color: #6b6b6b;
-  font-size: 14px;
+  font-size: 0.875rem;
 }
 
 .result-info {
@@ -658,7 +703,7 @@
   display: flex;
   align-items: center;
   gap: 10px;
-  font-size: 14px;
+  font-size: 0.875rem;
 }
 
 .captcha-row input {
@@ -676,20 +721,20 @@
 .captcha-brand-text {
   display: flex;
   flex-direction: column;
-  font-size: 9px;
+  font-size: 0.5625rem;
   color: var(--color-text-muted);
   line-height: 1.1;
   text-align: right;
 }
 
 .captcha-brand-text strong {
-  font-size: 11px;
+  font-size: 0.6875rem;
   color: var(--color-text);
 }
 
 .captcha-quota {
   margin: 8px 0 0;
-  font-size: 10px;
+  font-size: 0.625rem;
   color: var(--color-text-muted);
 }
 
@@ -705,7 +750,7 @@
   padding: 12px 24px;
   border-radius: 4px;
   font-weight: 600;
-  font-size: 14px;
+  font-size: 0.875rem;
 }
 
 .btn-forgot-cpf:hover {
@@ -718,11 +763,11 @@
   padding: 12px 0;
   border-radius: 4px;
   font-weight: 600;
-  font-size: 15px;
+  font-size: 0.9375rem;
 }
 
 .resend-label {
-  font-size: 13px;
+  font-size: 0.8125rem;
   color: var(--color-text-muted);
   margin: 8px 0 0;
 }
@@ -734,7 +779,7 @@
   border: none;
   padding: 12px 0;
   border-radius: 4px;
-  font-size: 14px;
+  font-size: 0.875rem;
   font-weight: 600;
   cursor: not-allowed;
 }
@@ -785,7 +830,7 @@
 }
 
 .requerente-title {
-  font-size: 16px;
+  font-size: 1rem;
   font-weight: 700;
   color: var(--color-text);
   margin: 0;
@@ -799,7 +844,7 @@
 .optional {
   color: #9aa0a6;
   font-weight: 400;
-  font-size: 13px;
+  font-size: 0.8125rem;
 }
 
 .req-grid {
@@ -855,7 +900,7 @@
   border: 1px solid var(--color-text);
   border-radius: 4px;
   padding: 14px 0;
-  font-size: 14px;
+  font-size: 0.875rem;
   font-weight: 600;
   color: var(--color-text);
   cursor: pointer;
@@ -874,7 +919,7 @@
   max-width: 560px;
   margin: 8px auto 0;
   width: 100%;
-  font-size: 13px;
+  font-size: 0.8125rem;
   color: var(--color-green);
 }
 
@@ -914,7 +959,7 @@
 }
 
 .cal-month {
-  font-size: 16px;
+  font-size: 1rem;
   font-weight: 700;
   color: var(--color-text);
 }
@@ -933,7 +978,7 @@
 
 .cal-weekdays span {
   text-align: center;
-  font-size: 11px;
+  font-size: 0.6875rem;
   font-weight: 700;
   color: #9aa0a6;
 }
@@ -943,7 +988,7 @@
   border-radius: 6px;
   border: 1px solid transparent;
   background: transparent;
-  font-size: 14px;
+  font-size: 0.875rem;
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -987,7 +1032,7 @@
   border-radius: 6px;
   margin: 16px 22px 0;
   padding: 12px 14px;
-  font-size: 13px;
+  font-size: 0.8125rem;
   color: var(--color-text);
 }
 
@@ -1006,7 +1051,7 @@
   width: 26px;
   height: 26px;
   aspect-ratio: auto;
-  font-size: 12px;
+  font-size: 0.75rem;
 }
 
 /* ações dos modais (data/hora) */
@@ -1050,7 +1095,7 @@
 }
 
 .time-subtitle {
-  font-size: 15px;
+  font-size: 0.9375rem;
   font-weight: 700;
   color: var(--color-text);
   margin: 16px 22px 10px;
@@ -1070,7 +1115,7 @@
   background-color: #ffffff;
   border-radius: 4px;
   padding: 10px 0;
-  font-size: 14px;
+  font-size: 0.875rem;
   color: var(--color-text);
   cursor: pointer;
 }
@@ -1099,7 +1144,7 @@
   display: block;
   margin-top: 6px;
   color: #e53935;
-  font-size: 13px;
+  font-size: 0.8125rem;
 }
 
 .alert-error {
@@ -1107,7 +1152,7 @@
   color: #c0392b;
   border-radius: 6px;
   padding: 14px 18px;
-  font-size: 14px;
+  font-size: 0.875rem;
   text-align: center;
 }
 
@@ -1154,7 +1199,7 @@
 }
 
 .resumo-card-head h3 {
-  font-size: 16px;
+  font-size: 1rem;
   font-weight: 700;
   color: var(--color-text);
   margin: 0;
@@ -1190,7 +1235,7 @@
 }
 
 .resumo-sub-head h4 {
-  font-size: 14px;
+  font-size: 0.875rem;
   font-weight: 700;
   color: var(--color-text);
   margin: 0;
@@ -1217,13 +1262,13 @@
 }
 
 .resumo-label {
-  font-size: 13px;
+  font-size: 0.8125rem;
   font-weight: 700;
   color: var(--color-text);
 }
 
 .resumo-value {
-  font-size: 14px;
+  font-size: 0.875rem;
   color: #555;
 }
 
@@ -1235,7 +1280,7 @@
   color: #555;
   border-radius: 4px;
   padding: 6px 12px;
-  font-size: 13px;
+  font-size: 0.8125rem;
   width: fit-content;
 }
 
@@ -1244,7 +1289,7 @@
 }
 
 .resumo-obs {
-  font-size: 13px;
+  font-size: 0.8125rem;
   line-height: 1.6;
   color: #555;
   margin: 0;
@@ -1272,7 +1317,7 @@
   align-items: center;
   gap: 10px;
   padding: 12px 16px;
-  font-size: 15px;
+  font-size: 0.9375rem;
 }
 
 .tipo-card-head strong {
@@ -1281,7 +1326,7 @@
 
 .tipo-card-body {
   padding: 16px;
-  font-size: 14px;
+  font-size: 0.875rem;
   color: var(--color-text);
   line-height: 1.5;
   background-color: #ffffff;
@@ -1310,7 +1355,7 @@
 }
 
 .conf-card-head h3 {
-  font-size: 16px;
+  font-size: 1rem;
   font-weight: 700;
   color: #3a4a5a;
   margin: 0;
@@ -1324,13 +1369,13 @@
 }
 
 .conf-label {
-  font-size: 13px;
+  font-size: 0.8125rem;
   font-weight: 700;
   color: var(--color-text);
 }
 
 .conf-value {
-  font-size: 14px;
+  font-size: 0.875rem;
   color: #555;
 }
 
@@ -1411,7 +1456,7 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  font-size: 15px;
+  font-size: 0.9375rem;
   color: var(--color-text);
   cursor: pointer;
 }
@@ -1429,13 +1474,13 @@
 }
 
 .status-text {
-  font-size: 14px;
+  font-size: 0.875rem;
   color: var(--color-text);
   margin: 0 0 6px;
 }
 
 .status-date {
-  font-size: 13px;
+  font-size: 0.8125rem;
   color: var(--color-text-muted);
   margin: 0 0 4px;
 }
@@ -1473,7 +1518,7 @@
   border: 1px solid #e53935;
   border-radius: 4px;
   padding: 14px 0;
-  font-size: 15px;
+  font-size: 0.9375rem;
   font-weight: 600;
   cursor: pointer;
 }
@@ -1505,7 +1550,7 @@
   border: 1px solid var(--color-border);
   border-radius: 4px;
   padding: 13px 0;
-  font-size: 14px;
+  font-size: 0.875rem;
   font-weight: 600;
   cursor: pointer;
 }
@@ -1536,12 +1581,12 @@
 }
 
 .validado-box strong {
-  font-size: 17px;
+  font-size: 1.0625rem;
   color: var(--color-text);
 }
 
 .validado-box span {
-  font-size: 14px;
+  font-size: 0.875rem;
   color: var(--color-text-muted);
 }
 
@@ -1562,7 +1607,7 @@
   color: #6b5a1e;
   border-radius: 6px;
   padding: 16px;
-  font-size: 14px;
+  font-size: 0.875rem;
   line-height: 1.5;
   text-align: center;
 }
@@ -1590,7 +1635,7 @@
 }
 
 .opt-card-head strong {
-  font-size: 15px;
+  font-size: 0.9375rem;
   color: var(--color-text);
 }
 
@@ -1600,7 +1645,7 @@
 }
 
 .opt-card p {
-  font-size: 13px;
+  font-size: 0.8125rem;
   color: var(--color-text-muted);
   line-height: 1.5;
   margin: 0;
@@ -1667,14 +1712,14 @@
 }
 
 .cancel-confirm h2 {
-  font-size: 18px;
+  font-size: 1.125rem;
   font-weight: 700;
   color: var(--color-text);
   margin: 0;
 }
 
 .cancel-confirm p {
-  font-size: 14px;
+  font-size: 0.875rem;
   color: var(--color-text-muted);
   line-height: 1.5;
   margin: 0;
@@ -1691,12 +1736,12 @@
 }
 
 .email-box span {
-  font-size: 13px;
+  font-size: 0.8125rem;
   color: var(--color-text-muted);
 }
 
 .email-box strong {
-  font-size: 15px;
+  font-size: 0.9375rem;
   color: var(--color-text);
 }
 
@@ -1748,14 +1793,14 @@
 }
 
 .cancelada-card h3 {
-  font-size: 16px;
+  font-size: 1rem;
   font-weight: 700;
   color: var(--color-text);
   margin: 0;
 }
 
 .cancelada-card p {
-  font-size: 14px;
+  font-size: 0.875rem;
   color: var(--color-text-muted);
   line-height: 1.5;
   margin: 0;
